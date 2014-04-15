@@ -42,7 +42,12 @@ The currency pairs that can be traded on BTC-e are hard-coded for now, but it's 
 - Add more trading strategies
 - Use streaming APIs when available
 
-### Setup
+### Installation
+
+If you are a developper, you can just use Visual Studio 2013 Express to open the solution and recompile the application. 
+Otherwise, just extract the [CointT.Net-Release.zip](CointT.Net-Release.zip) file
+
+### Configuration
 
 There is a configuration file named CoinTNet.exe.config in the executable folder. With that file, you can configure:
 - Bitstamp's API parameters (needed if you want to send orders)
