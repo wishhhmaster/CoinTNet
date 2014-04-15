@@ -14,7 +14,7 @@ CoinT.Net is a basic trading application for bitcoins and other altcoins, which 
 
 There is also a feature to check on arbitrage opportunities within BTC-e's multiple currencies (but it's just paper trading for now)
 
-Note: historic trading data is retrieved from Bitcoinchats for BTC and Bitcoinwisdom.com for other currencies. Consequently, not all data might be available.
+Note: historic trading data is retrieved from Bitcoincharts.com for BTC and Bitcoinwisdom.com for other currencies. Consequently, not all data might be available.
 
 
 This application was mainly inspired by this project:
