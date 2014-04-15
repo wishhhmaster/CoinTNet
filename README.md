@@ -45,7 +45,7 @@ The currency pairs that can be traded on BTC-e are hard-coded for now, but it's 
 ### Installation
 
 If you are a developper, you can just use Visual Studio 2013 Express to open the solution and recompile the application. 
-Otherwise, just extract the [CointT.Net-Release.zip](CointT.Net-Release.zip) file
+Otherwise, just extract the [CointT.Net-Release.zip](https://github.com/wishhhmaster/CoinTNet/raw/master/CointT.Net-Release.zip) file
 
 ### Configuration
 
