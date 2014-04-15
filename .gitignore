@@ -66,6 +66,7 @@ ipch/
 *.ncb
 *.opensdf
 *.sdf
+!CoinTNet/eb.sdf
 *.cachefile
 
 # Visual Studio profiler
