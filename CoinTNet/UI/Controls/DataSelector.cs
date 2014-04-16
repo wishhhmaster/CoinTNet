@@ -145,7 +145,10 @@ namespace CoinTNet.UI.Controls
                             new CurrencyPair ("BTC", "EUR" ),
                             new CurrencyPair ("LTC", "USD" ),
                             new CurrencyPair ("LTC", "BTC" ),
-                            new CurrencyPair ("NMC", "USD" )
+                            new CurrencyPair ("NMC", "USD" ),
+                            new CurrencyPair ("NMC", "BTC" ),
+                            new CurrencyPair ("PPC", "USD" ),
+                            new CurrencyPair ("PPC", "BTC" )
             }, ExchangesInternalCodes.Btce);
             btceEx.FeeDeductedFromTotal = true;
             var allExchanges = new[] { bitstampEx, btceEx };

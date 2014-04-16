@@ -126,8 +126,8 @@ namespace CoinTNet.UI.Controls
         {
             string currency = SelectedPair.Item2;
 
-            lblBuy.Text = string.Format(CultureInfo.InvariantCulture, "{0:0.00###} {1}", ticker.Bid, currency);
-            lblSell.Text = string.Format(CultureInfo.InvariantCulture, "{0:0.00###} {1}", ticker.Ask, currency);
+            lblBuy.Text = string.Format(CultureInfo.InvariantCulture, "{0:0.00###} {1}", ticker.Ask, currency);
+            lblSell.Text = string.Format(CultureInfo.InvariantCulture, "{0:0.00###} {1}", ticker.Bid, currency);
 
             if (string.IsNullOrEmpty(txtBuyPrice.Text))
             {
