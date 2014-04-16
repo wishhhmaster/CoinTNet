@@ -178,5 +178,3 @@ UpgradeLog*.htm
 # Microsoft Fakes
 FakesAssemblies/
 
-#conf file
-CoinTNet/App.config
