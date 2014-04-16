@@ -51,7 +51,7 @@ namespace CoinTNet.UI.Controls
             dtpFrom.Value = DateTime.Now.Date;
             Tuple<string, int>[] values = { Tuple.Create("1 min", 1), Tuple.Create("5 min", 5), Tuple.Create("15 min", 15),
                                           Tuple.Create ("1 hour", 60), Tuple.Create ("2 hours", 2*60),
-                                          Tuple.Create ("4 hours", 4*60), Tuple.Create ("8 hours", 8 * 60)};
+                                          Tuple.Create ("4 hours", 4*60), Tuple.Create ("6 hours", 6 * 60)};
 
 
             cbbPeriodInMin.PopulateCbbFromList(values, t => t.Item1, values[2]);

@@ -184,13 +184,25 @@ namespace CoinTNet.UI.Controls
                     _priceAnnotation.X = 90;
                     _priceAnnotation.Y = e.Location.Y / (float)chartCtrl.Height * 100;
 
+                    //Find out how many decimals we want to display
+                    int nbDecimals = 2;
+                    var k = valY;
+                    while (k < 10 && nbDecimals < 6)
+                    {
+                        nbDecimals++;
+                        k = k * 10;
+                    }
+                    string format = "0." + new string('0', nbDecimals);
 
-                    _priceAnnotation.Text = valY.ToString("0.00", CultureInfo.InvariantCulture);
+
+                    _priceAnnotation.Text = valY.ToString(format, CultureInfo.InvariantCulture);
                     int index = (int)(_mainChartArea.CursorX.Position - 1);
                     if (index >= 0 && index <= chartCtrl.Series[Constants.PriceSerieName].Points.Count - 1)
                     {
                         var candle = chartCtrl.Series[Constants.PriceSerieName].Points[index].Tag as OHLC;
-                        lblInfo.Text = string.Format(CultureInfo.InvariantCulture, "Date: {0} - O: {1:0.00##} - H: {2:0.00##} - L: {3:0.00##} - C: {4:0.00##}", candle.Date, candle.Open, candle.High, candle.Low, candle.Close);
+                        lblInfo.Text = string.Format(CultureInfo.InvariantCulture, "Date: {0} - O: {1} - H: {2} - L: {3} - C: {4}",
+                            candle.Date, candle.Open.ToString(format, CultureInfo.InvariantCulture),
+                            candle.High.ToString(format, CultureInfo.InvariantCulture), candle.Low.ToString(format, CultureInfo.InvariantCulture), candle.Close.ToString(format, CultureInfo.InvariantCulture));
                     }
                     else
                     {
@@ -417,9 +429,24 @@ namespace CoinTNet.UI.Controls
                 {
                     nbDecimals = 2;
                 }
+
+                //Find out how many decimals we want to display
+                nbDecimals = 0;
+                var k = range;
+                double cursorInterval = 0.1;
+                while (k < 10 && nbDecimals < 4)
+                {
+                    nbDecimals++;
+                    k = k * 10;
+                    cursorInterval /= 10;
+                }
+
                 yAxis.Maximum = (double)maxPrice + range * extra / 100;
                 yAxis.Minimum = (double)minPrice - range * extra / 100;
                 yAxis.LabelStyle.Format = nbDecimals > 0 ? ("{0:0." + new string('#', nbDecimals) + "}") : "{0}";
+                
+                _mainChartArea.CursorY.Interval = cursorInterval;
+
                 if (zoomed)
                 {
                     _mainChartArea.RecalculateAxesScale();
