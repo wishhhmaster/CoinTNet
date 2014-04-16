@@ -72,7 +72,7 @@ namespace CoinTNet.UI.Controls
             }
             try
             {
-                lblItemBalance.Text = lblCurrencyBalance.Text = string.Empty;
+                lblItem1Balance.Text = lblItem2Balance.Text = string.Empty;
                 txtBuyAmount.Text = txtBuyPrice.Text = txtSellAmount.Text = txtSellPrice.Text = string.Empty;
                 var feeRes = _proxy.GetFee(m.Pair);
                 lblCurrency1.Text = lblCurrency2.Text = m.Pair.Item2;
@@ -108,8 +108,8 @@ namespace CoinTNet.UI.Controls
             {
                 var bal = balRes.Result;
                 _fee = bal.Fee;
-                lblItemBalance.Text = string.Format(CultureInfo.InvariantCulture, "{0:0.00###} {1}", bal.Balances[SelectedPair.Item1], SelectedPair.Item1);
-                lblCurrencyBalance.Text = string.Format(CultureInfo.InvariantCulture, "{0:0.00###} {1}", bal.Balances[SelectedPair.Item2], currency);
+                lblItem1Balance.Text = string.Format(CultureInfo.InvariantCulture, "{0:0.00###} {1}", bal.Balances[SelectedPair.Item1], SelectedPair.Item1);
+                lblItem2Balance.Text = string.Format(CultureInfo.InvariantCulture, "{0:0.00###} {1}", bal.Balances[SelectedPair.Item2], currency);
             }
             else
             {
@@ -126,8 +126,8 @@ namespace CoinTNet.UI.Controls
         {
             string currency = SelectedPair.Item2;
 
-            lblBuy.Text = string.Format(CultureInfo.InvariantCulture, "{0:0.00###} {1}", ticker.Ask, currency);
-            lblSell.Text = string.Format(CultureInfo.InvariantCulture, "{0:0.00###} {1}", ticker.Bid, currency);
+            lblLowestAsk.Text = string.Format(CultureInfo.InvariantCulture, "{0:0.00###} {1}", ticker.Ask, currency);
+            lblHighestBid.Text = string.Format(CultureInfo.InvariantCulture, "{0:0.00###} {1}", ticker.Bid, currency);
 
             if (string.IsNullOrEmpty(txtBuyPrice.Text))
             {
@@ -150,28 +150,56 @@ namespace CoinTNet.UI.Controls
             UpdateBalance();
         }
 
-        private void OnFillItemAmount(object sender, EventArgs e)
+        /// <summary>
+        /// When the user clicks on the item1 balance, fill the # of items to sell with the balance
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void FillSellAmount(object sender, EventArgs e)
         {
-            decimal balance = decimal.Parse(lblItemBalance.Text.Substring(0, lblItemBalance.Text.IndexOf(" ")), CultureInfo.InvariantCulture);
-            decimal buyPrice = decimal.Parse(txtBuyPrice.Text, CultureInfo.InvariantCulture);
-
-            decimal result = balance / buyPrice;
-            txtBuyAmount.Text = string.Format(CultureInfo.InvariantCulture, "{0:0.00######}", result);
+            txtSellAmount.Text = lblItem1Balance.Text.Substring(0, lblItem1Balance.Text.IndexOf(" "));
         }
 
-        private void OnFillCurrencyAmount(object sender, EventArgs e)
+        /// <summary>
+        /// When the user clicks on the item2 balance, fills the # of items to buy
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void FillBuyAmount(object sender, EventArgs e)
         {
-            txtSellAmount.Text = lblCurrencyBalance.Text.Substring(0, lblCurrencyBalance.Text.IndexOf(" "));
+            decimal balance = decimal.Parse(lblItem2Balance.Text.Substring(0, lblItem2Balance.Text.IndexOf(" ")), CultureInfo.InvariantCulture);
+            decimal buyPrice = 0;
+            if (decimal.TryParse(txtBuyPrice.Text, NumberStyles.Currency, CultureInfo.InvariantCulture, out buyPrice))
+            {
+                decimal amount = balance / buyPrice;
+
+                if (!SelectedPair.Exchange.FeeDeductedFromTotal)
+                {
+                    amount = 100 * balance / ((100 + _fee) * buyPrice);
+                }
+
+                txtBuyAmount.Text = string.Format(CultureInfo.InvariantCulture, "{0:0.00######}", amount);
+            }
         }
 
-        private void OnFillPriceCurrency(object sender, EventArgs e)
+        /// <summary>
+        /// Sets sell ptice to highest bid
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void OnHighestBidClick(object sender, EventArgs e)
         {
-            txtSellPrice.Text = lblSell.Text.Substring(0, lblSell.Text.IndexOf(" "));
+            txtSellPrice.Text = lblHighestBid.Text.Substring(0, lblHighestBid.Text.IndexOf(" "));
         }
 
-        private void OnFillPriceItem(object sender, EventArgs e)
+        /// <summary>
+        /// Sets buy price to lowest ask
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void OnLowestAskClick(object sender, EventArgs e)
         {
-            txtBuyPrice.Text = lblBuy.Text.Substring(0, lblBuy.Text.IndexOf(" "));
+            txtBuyPrice.Text = lblLowestAsk.Text.Substring(0, lblLowestAsk.Text.IndexOf(" "));
         }
 
         /// <summary>
@@ -181,9 +209,10 @@ namespace CoinTNet.UI.Controls
         /// <param name="e"></param>
         private void UpdateBuyTotal(object sender, EventArgs e)
         {
-            if (!string.IsNullOrEmpty(txtBuyAmount.Text) && !string.IsNullOrEmpty(txtBuyPrice.Text))
+            decimal amount, price;
+            if (decimal.TryParse(txtBuyAmount.Text, NumberStyles.Currency, CultureInfo.InvariantCulture, out amount) && decimal.TryParse(txtBuyPrice.Text, NumberStyles.Currency, CultureInfo.InvariantCulture, out price))
             {
-                decimal total = decimal.Parse(txtBuyAmount.Text, CultureInfo.InvariantCulture) * decimal.Parse(txtBuyPrice.Text, CultureInfo.InvariantCulture);
+                decimal total = amount * price;
                 decimal totalFee = total * _fee / 100m;
                 bool feeDeductedFromTotal = SelectedPair.Exchange.FeeDeductedFromTotal;
                 lblBuyFee.Text = string.Format(CultureInfo.InvariantCulture, "{0:0.####} {1}", totalFee, _proxy.GetFeeUnit(SelectedPair, OrderType.Buy));
@@ -198,7 +227,9 @@ namespace CoinTNet.UI.Controls
         /// <param name="e"></param>
         private void UpdateSellTotal(object sender, EventArgs e)
         {
-            if (!string.IsNullOrEmpty(txtSellAmount.Text) && !string.IsNullOrEmpty(txtSellPrice.Text))
+            decimal amount, price;
+
+            if (decimal.TryParse(txtSellAmount.Text, NumberStyles.Currency, CultureInfo.InvariantCulture, out amount) && decimal.TryParse(txtSellPrice.Text, NumberStyles.Currency, CultureInfo.InvariantCulture, out price))
             {
                 decimal total = decimal.Parse(txtSellAmount.Text, CultureInfo.InvariantCulture) * decimal.Parse(txtSellPrice.Text, CultureInfo.InvariantCulture);
                 decimal totalFee = total * _fee / 100m;
@@ -217,14 +248,22 @@ namespace CoinTNet.UI.Controls
         {
             try
             {
-                var orderDetailsRes = _proxy.PlaceBuyOrder(Convert.ToDecimal(txtBuyAmount.Text, CultureInfo.InvariantCulture), Convert.ToDecimal(txtBuyPrice.Text, CultureInfo.InvariantCulture), SelectedPair);
-                if (orderDetailsRes.Success)
+                decimal amount, price;
+                if (decimal.TryParse(txtBuyAmount.Text, NumberStyles.Currency, CultureInfo.InvariantCulture, out amount) && decimal.TryParse(txtBuyPrice.Text, NumberStyles.Currency, CultureInfo.InvariantCulture, out price))
                 {
-                    EventAggregator.Instance.Publish(new OrderSentMessage());
+                    var orderDetailsRes = _proxy.PlaceBuyOrder(amount, price, SelectedPair);
+                    if (orderDetailsRes.Success)
+                    {
+                        EventAggregator.Instance.Publish(new OrderSentMessage());
+                    }
+                    else
+                    {
+                        ErrorHelper.DisplayErrorMessage(orderDetailsRes.ErrorMessage);
+                    }
                 }
                 else
                 {
-                    ErrorHelper.DisplayErrorMessage(orderDetailsRes.ErrorMessage);
+                    ErrorHelper.DisplayErrorMessage("Please enter amount and prices in a correct format");
                 }
             }
             catch (Exception ex)
@@ -243,14 +282,22 @@ namespace CoinTNet.UI.Controls
         {
             try
             {
-                var orderDetailsRes = _proxy.PlaceSellOrder(Convert.ToDecimal(txtSellAmount.Text, CultureInfo.InvariantCulture), Convert.ToDecimal(txtSellPrice.Text, CultureInfo.InvariantCulture), SelectedPair);
-                if (orderDetailsRes.Success)
+                decimal amount, price;
+                if (decimal.TryParse(txtSellAmount.Text, NumberStyles.Currency, CultureInfo.InvariantCulture, out amount) && decimal.TryParse(txtSellPrice.Text, NumberStyles.Currency, CultureInfo.InvariantCulture, out price))
                 {
-                    EventAggregator.Instance.Publish(new OrderSentMessage());
+                    var orderDetailsRes = _proxy.PlaceSellOrder(amount, price, SelectedPair);
+                    if (orderDetailsRes.Success)
+                    {
+                        EventAggregator.Instance.Publish(new OrderSentMessage());
+                    }
+                    else
+                    {
+                        ErrorHelper.DisplayErrorMessage(orderDetailsRes.ErrorMessage);
+                    }
                 }
                 else
                 {
-                    ErrorHelper.DisplayErrorMessage(orderDetailsRes.ErrorMessage);
+                    ErrorHelper.DisplayErrorMessage("Please enter amount and prices in a correct format");
                 }
             }
             catch (Exception ex)

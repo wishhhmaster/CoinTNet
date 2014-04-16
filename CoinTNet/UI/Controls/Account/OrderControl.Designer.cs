@@ -30,6 +30,7 @@
         {
             this.tlpOrder = new System.Windows.Forms.TableLayoutPanel();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.lblSellAmountCurrency = new System.Windows.Forms.Label();
             this.lblSellFee = new System.Windows.Forms.Label();
             this.label8 = new System.Windows.Forms.Label();
             this.btnRefresh = new System.Windows.Forms.Button();
@@ -40,12 +41,13 @@
             this.txtSellPrice = new System.Windows.Forms.TextBox();
             this.txtSellAmount = new System.Windows.Forms.TextBox();
             this.label6 = new System.Windows.Forms.Label();
-            this.lblItemBalance = new System.Windows.Forms.Label();
+            this.lblItem1Balance = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
-            this.lblSell = new System.Windows.Forms.Label();
+            this.lblHighestBid = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.lblBuyAmountCurrency = new System.Windows.Forms.Label();
             this.lblBuyFee = new System.Windows.Forms.Label();
             this.label7 = new System.Windows.Forms.Label();
             this.btnBuy = new System.Windows.Forms.Button();
@@ -57,11 +59,9 @@
             this.label9 = new System.Windows.Forms.Label();
             this.label10 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
-            this.lblBuy = new System.Windows.Forms.Label();
-            this.lblCurrencyBalance = new System.Windows.Forms.Label();
+            this.lblLowestAsk = new System.Windows.Forms.Label();
+            this.lblItem2Balance = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
-            this.lblSellAmountCurrency = new System.Windows.Forms.Label();
-            this.lblBuyAmountCurrency = new System.Windows.Forms.Label();
             this.tlpOrder.SuspendLayout();
             this.groupBox3.SuspendLayout();
             this.groupBox2.SuspendLayout();
@@ -100,10 +100,10 @@
             this.groupBox3.Controls.Add(this.txtSellPrice);
             this.groupBox3.Controls.Add(this.txtSellAmount);
             this.groupBox3.Controls.Add(this.label6);
-            this.groupBox3.Controls.Add(this.lblItemBalance);
+            this.groupBox3.Controls.Add(this.lblItem1Balance);
             this.groupBox3.Controls.Add(this.label5);
             this.groupBox3.Controls.Add(this.label4);
-            this.groupBox3.Controls.Add(this.lblSell);
+            this.groupBox3.Controls.Add(this.lblHighestBid);
             this.groupBox3.Controls.Add(this.label2);
             this.groupBox3.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.groupBox3.Location = new System.Drawing.Point(158, 3);
@@ -112,6 +112,15 @@
             this.groupBox3.TabIndex = 8;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Sell";
+            // 
+            // lblSellAmountCurrency
+            // 
+            this.lblSellAmountCurrency.AutoSize = true;
+            this.lblSellAmountCurrency.Location = new System.Drawing.Point(55, 93);
+            this.lblSellAmountCurrency.Name = "lblSellAmountCurrency";
+            this.lblSellAmountCurrency.Size = new System.Drawing.Size(26, 13);
+            this.lblSellAmountCurrency.TabIndex = 23;
+            this.lblSellAmountCurrency.Text = "BTC";
             // 
             // lblSellFee
             // 
@@ -212,18 +221,18 @@
             this.label6.TabIndex = 7;
             this.label6.Text = "Sell price";
             // 
-            // lblItemBalance
+            // lblItem1Balance
             // 
-            this.lblItemBalance.AutoSize = true;
-            this.lblItemBalance.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.lblItemBalance.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblItemBalance.ForeColor = System.Drawing.Color.RoyalBlue;
-            this.lblItemBalance.Location = new System.Drawing.Point(7, 39);
-            this.lblItemBalance.Name = "lblItemBalance";
-            this.lblItemBalance.Size = new System.Drawing.Size(35, 13);
-            this.lblItemBalance.TabIndex = 4;
-            this.lblItemBalance.Text = "? BTC";
-            this.lblItemBalance.Click += new System.EventHandler(this.OnFillItemAmount);
+            this.lblItem1Balance.AutoSize = true;
+            this.lblItem1Balance.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.lblItem1Balance.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblItem1Balance.ForeColor = System.Drawing.Color.RoyalBlue;
+            this.lblItem1Balance.Location = new System.Drawing.Point(7, 39);
+            this.lblItem1Balance.Name = "lblItem1Balance";
+            this.lblItem1Balance.Size = new System.Drawing.Size(35, 13);
+            this.lblItem1Balance.TabIndex = 4;
+            this.lblItem1Balance.Text = "? BTC";
+            this.lblItem1Balance.Click += new System.EventHandler(this.FillSellAmount);
             // 
             // label5
             // 
@@ -243,18 +252,18 @@
             this.label4.TabIndex = 4;
             this.label4.Text = "Av. Balance:";
             // 
-            // lblSell
+            // lblHighestBid
             // 
-            this.lblSell.AutoSize = true;
-            this.lblSell.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.lblSell.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblSell.Location = new System.Drawing.Point(9, 73);
-            this.lblSell.Name = "lblSell";
-            this.lblSell.Size = new System.Drawing.Size(65, 13);
-            this.lblSell.TabIndex = 3;
-            this.lblSell.Text = "000.00 USD";
-            this.lblSell.TextAlign = System.Drawing.ContentAlignment.TopRight;
-            this.lblSell.Click += new System.EventHandler(this.OnFillPriceCurrency);
+            this.lblHighestBid.AutoSize = true;
+            this.lblHighestBid.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.lblHighestBid.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblHighestBid.Location = new System.Drawing.Point(9, 73);
+            this.lblHighestBid.Name = "lblHighestBid";
+            this.lblHighestBid.Size = new System.Drawing.Size(65, 13);
+            this.lblHighestBid.TabIndex = 3;
+            this.lblHighestBid.Text = "000.00 USD";
+            this.lblHighestBid.TextAlign = System.Drawing.ContentAlignment.TopRight;
+            this.lblHighestBid.Click += new System.EventHandler(this.OnHighestBidClick);
             // 
             // label2
             // 
@@ -283,8 +292,8 @@
             this.groupBox2.Controls.Add(this.label9);
             this.groupBox2.Controls.Add(this.label10);
             this.groupBox2.Controls.Add(this.label3);
-            this.groupBox2.Controls.Add(this.lblBuy);
-            this.groupBox2.Controls.Add(this.lblCurrencyBalance);
+            this.groupBox2.Controls.Add(this.lblLowestAsk);
+            this.groupBox2.Controls.Add(this.lblItem2Balance);
             this.groupBox2.Controls.Add(this.label1);
             this.groupBox2.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.groupBox2.Location = new System.Drawing.Point(3, 3);
@@ -293,6 +302,15 @@
             this.groupBox2.TabIndex = 7;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Buy";
+            // 
+            // lblBuyAmountCurrency
+            // 
+            this.lblBuyAmountCurrency.AutoSize = true;
+            this.lblBuyAmountCurrency.Location = new System.Drawing.Point(60, 93);
+            this.lblBuyAmountCurrency.Name = "lblBuyAmountCurrency";
+            this.lblBuyAmountCurrency.Size = new System.Drawing.Size(26, 13);
+            this.lblBuyAmountCurrency.TabIndex = 24;
+            this.lblBuyAmountCurrency.Text = "BTC";
             // 
             // lblBuyFee
             // 
@@ -400,31 +418,31 @@
             this.label3.TabIndex = 3;
             this.label3.Text = "Av. Balance:";
             // 
-            // lblBuy
+            // lblLowestAsk
             // 
-            this.lblBuy.AutoSize = true;
-            this.lblBuy.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.lblBuy.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblBuy.Location = new System.Drawing.Point(9, 73);
-            this.lblBuy.Name = "lblBuy";
-            this.lblBuy.Size = new System.Drawing.Size(65, 13);
-            this.lblBuy.TabIndex = 2;
-            this.lblBuy.Text = "000.00 USD";
-            this.lblBuy.TextAlign = System.Drawing.ContentAlignment.TopRight;
-            this.lblBuy.Click += new System.EventHandler(this.OnFillPriceItem);
+            this.lblLowestAsk.AutoSize = true;
+            this.lblLowestAsk.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.lblLowestAsk.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblLowestAsk.Location = new System.Drawing.Point(9, 73);
+            this.lblLowestAsk.Name = "lblLowestAsk";
+            this.lblLowestAsk.Size = new System.Drawing.Size(65, 13);
+            this.lblLowestAsk.TabIndex = 2;
+            this.lblLowestAsk.Text = "000.00 USD";
+            this.lblLowestAsk.TextAlign = System.Drawing.ContentAlignment.TopRight;
+            this.lblLowestAsk.Click += new System.EventHandler(this.OnLowestAskClick);
             // 
-            // lblCurrencyBalance
+            // lblItem2Balance
             // 
-            this.lblCurrencyBalance.AutoSize = true;
-            this.lblCurrencyBalance.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.lblCurrencyBalance.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblCurrencyBalance.ForeColor = System.Drawing.Color.RoyalBlue;
-            this.lblCurrencyBalance.Location = new System.Drawing.Point(9, 39);
-            this.lblCurrencyBalance.Name = "lblCurrencyBalance";
-            this.lblCurrencyBalance.Size = new System.Drawing.Size(37, 13);
-            this.lblCurrencyBalance.TabIndex = 5;
-            this.lblCurrencyBalance.Text = "? USD";
-            this.lblCurrencyBalance.Click += new System.EventHandler(this.OnFillCurrencyAmount);
+            this.lblItem2Balance.AutoSize = true;
+            this.lblItem2Balance.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.lblItem2Balance.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblItem2Balance.ForeColor = System.Drawing.Color.RoyalBlue;
+            this.lblItem2Balance.Location = new System.Drawing.Point(9, 39);
+            this.lblItem2Balance.Name = "lblItem2Balance";
+            this.lblItem2Balance.Size = new System.Drawing.Size(37, 13);
+            this.lblItem2Balance.TabIndex = 5;
+            this.lblItem2Balance.Text = "? USD";
+            this.lblItem2Balance.Click += new System.EventHandler(this.FillBuyAmount);
             // 
             // label1
             // 
@@ -435,24 +453,6 @@
             this.label1.TabIndex = 0;
             this.label1.Text = "Lowest ask Price";
             this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
-            // lblSellAmountCurrency
-            // 
-            this.lblSellAmountCurrency.AutoSize = true;
-            this.lblSellAmountCurrency.Location = new System.Drawing.Point(55, 93);
-            this.lblSellAmountCurrency.Name = "lblSellAmountCurrency";
-            this.lblSellAmountCurrency.Size = new System.Drawing.Size(26, 13);
-            this.lblSellAmountCurrency.TabIndex = 23;
-            this.lblSellAmountCurrency.Text = "BTC";
-            // 
-            // lblBuyAmountCurrency
-            // 
-            this.lblBuyAmountCurrency.AutoSize = true;
-            this.lblBuyAmountCurrency.Location = new System.Drawing.Point(60, 93);
-            this.lblBuyAmountCurrency.Name = "lblBuyAmountCurrency";
-            this.lblBuyAmountCurrency.Size = new System.Drawing.Size(26, 13);
-            this.lblBuyAmountCurrency.TabIndex = 24;
-            this.lblBuyAmountCurrency.Text = "BTC";
             // 
             // OrderControl
             // 
@@ -480,9 +480,9 @@
         private System.Windows.Forms.TextBox txtSellAmount;
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.Label label5;
-        private System.Windows.Forms.Label lblCurrencyBalance;
+        private System.Windows.Forms.Label lblItem2Balance;
         private System.Windows.Forms.Label label4;
-        private System.Windows.Forms.Label lblSell;
+        private System.Windows.Forms.Label lblHighestBid;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.GroupBox groupBox2;
         private System.Windows.Forms.Label lblBuyTotal;
@@ -492,9 +492,9 @@
         private System.Windows.Forms.TextBox txtBuyAmount;
         private System.Windows.Forms.Label label9;
         private System.Windows.Forms.Label label10;
-        private System.Windows.Forms.Label lblItemBalance;
+        private System.Windows.Forms.Label lblItem1Balance;
         private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.Label lblBuy;
+        private System.Windows.Forms.Label lblLowestAsk;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Button btnRefresh;
         private System.Windows.Forms.Button btnBuy;
