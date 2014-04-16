@@ -60,6 +60,8 @@
             this.lblBuy = new System.Windows.Forms.Label();
             this.lblCurrencyBalance = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
+            this.lblSellAmountCurrency = new System.Windows.Forms.Label();
+            this.lblBuyAmountCurrency = new System.Windows.Forms.Label();
             this.tlpOrder.SuspendLayout();
             this.groupBox3.SuspendLayout();
             this.groupBox2.SuspendLayout();
@@ -87,6 +89,7 @@
             this.groupBox3.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.groupBox3.Controls.Add(this.lblSellAmountCurrency);
             this.groupBox3.Controls.Add(this.lblSellFee);
             this.groupBox3.Controls.Add(this.label8);
             this.groupBox3.Controls.Add(this.btnRefresh);
@@ -227,9 +230,9 @@
             this.label5.AutoSize = true;
             this.label5.Location = new System.Drawing.Point(6, 93);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(73, 13);
+            this.label5.Size = new System.Drawing.Size(48, 13);
             this.label5.TabIndex = 6;
-            this.label5.Text = "Amount BTC:";
+            this.label5.Text = "Amount";
             // 
             // label4
             // 
@@ -268,6 +271,7 @@
             this.groupBox2.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.groupBox2.Controls.Add(this.lblBuyAmountCurrency);
             this.groupBox2.Controls.Add(this.lblBuyFee);
             this.groupBox2.Controls.Add(this.label7);
             this.groupBox2.Controls.Add(this.btnBuy);
@@ -432,6 +436,24 @@
             this.label1.Text = "Lowest ask Price";
             this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
+            // lblSellAmountCurrency
+            // 
+            this.lblSellAmountCurrency.AutoSize = true;
+            this.lblSellAmountCurrency.Location = new System.Drawing.Point(55, 93);
+            this.lblSellAmountCurrency.Name = "lblSellAmountCurrency";
+            this.lblSellAmountCurrency.Size = new System.Drawing.Size(26, 13);
+            this.lblSellAmountCurrency.TabIndex = 23;
+            this.lblSellAmountCurrency.Text = "BTC";
+            // 
+            // lblBuyAmountCurrency
+            // 
+            this.lblBuyAmountCurrency.AutoSize = true;
+            this.lblBuyAmountCurrency.Location = new System.Drawing.Point(60, 93);
+            this.lblBuyAmountCurrency.Name = "lblBuyAmountCurrency";
+            this.lblBuyAmountCurrency.Size = new System.Drawing.Size(26, 13);
+            this.lblBuyAmountCurrency.TabIndex = 24;
+            this.lblBuyAmountCurrency.Text = "BTC";
+            // 
             // OrderControl
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Inherit;
@@ -481,5 +503,7 @@
         private System.Windows.Forms.Label label8;
         private System.Windows.Forms.Label lblBuyFee;
         private System.Windows.Forms.Label label7;
+        private System.Windows.Forms.Label lblSellAmountCurrency;
+        private System.Windows.Forms.Label lblBuyAmountCurrency;
     }
 }

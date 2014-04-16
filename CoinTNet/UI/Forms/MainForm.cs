@@ -240,12 +240,6 @@ namespace CoinTNet.UI.Forms
 
         #region Control Events
 
-
-        private void OnShowForecastChanged(object sender, EventArgs e)
-        {
-            myChartControl.Forecast();
-        }
-
         private void OnPairChanged()
         {
             _candles.Clear();

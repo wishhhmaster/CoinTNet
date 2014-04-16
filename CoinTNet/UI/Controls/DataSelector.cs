@@ -1,5 +1,6 @@
 ﻿using CoinTNet.Common.Constants;
 using CoinTNet.DO;
+using CoinTNet.Common;
 using CoinTNet.UI.Common;
 using CoinTNet.UI.Common.EventAggregator;
 using CoinTNet.UI.Forms;
@@ -117,14 +118,14 @@ namespace CoinTNet.UI.Controls
         /// </summary>
         public DateTime FromDate
         {
-            get { return dtpFrom.Value; }
+            get { return dtpFrom.Value.ChangeTypeToUtc(); }
         }
         /// <summary>
         /// Gets the To Date (or null if now is Checked)
         /// </summary>
         public DateTime? ToDate
         {
-            get { return chkNow.Checked ? (DateTime?)null : dtpTo.Value; }
+            get { return chkNow.Checked ? (DateTime?)null : dtpTo.Value.ChangeTypeToUtc(); }
         }
 
         #endregion

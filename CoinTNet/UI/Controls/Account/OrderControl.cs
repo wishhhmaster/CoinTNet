@@ -76,6 +76,8 @@ namespace CoinTNet.UI.Controls
                 txtBuyAmount.Text = txtBuyPrice.Text = txtSellAmount.Text = txtSellPrice.Text = string.Empty;
                 var feeRes = _proxy.GetFee(m.Pair);
                 lblCurrency1.Text = lblCurrency2.Text = m.Pair.Item2;
+                lblSellAmountCurrency.Text = lblBuyAmountCurrency.Text = m.Pair.Item1;
+
                 _fee = feeRes.Success ? feeRes.Result : 0.03m;
                 lblBuyFee.Text = lblSellFee.Text = "0";
                 lblBuyTotal.Text = lblSellTotal.Text = "0";
@@ -123,7 +125,7 @@ namespace CoinTNet.UI.Controls
         private void OnTickerUpdate(Ticker ticker)
         {
             string currency = SelectedPair.Item2;
-            lblCurrency1.Text = lblCurrency2.Text = currency;
+
             lblBuy.Text = string.Format(CultureInfo.InvariantCulture, "{0:0.00###} {1}", ticker.Bid, currency);
             lblSell.Text = string.Format(CultureInfo.InvariantCulture, "{0:0.00###} {1}", ticker.Ask, currency);
 
@@ -184,8 +186,8 @@ namespace CoinTNet.UI.Controls
                 decimal total = decimal.Parse(txtBuyAmount.Text, CultureInfo.InvariantCulture) * decimal.Parse(txtBuyPrice.Text, CultureInfo.InvariantCulture);
                 decimal totalFee = total * _fee / 100m;
                 bool feeDeductedFromTotal = SelectedPair.Exchange.FeeDeductedFromTotal;
-                lblBuyFee.Text = string.Format(CultureInfo.InvariantCulture, "{0:0.##} {1}", totalFee, _proxy.GetFeeUnit(SelectedPair, OrderType.Buy));
-                lblBuyTotal.Text = string.Format(CultureInfo.InvariantCulture, "{0:0.##} {1}", feeDeductedFromTotal ? total : total + totalFee, SelectedPair.Item2);
+                lblBuyFee.Text = string.Format(CultureInfo.InvariantCulture, "{0:0.####} {1}", totalFee, _proxy.GetFeeUnit(SelectedPair, OrderType.Buy));
+                lblBuyTotal.Text = string.Format(CultureInfo.InvariantCulture, "{0:0.####} {1}", feeDeductedFromTotal ? total : total + totalFee, SelectedPair.Item2);
             }
         }
 
@@ -201,8 +203,8 @@ namespace CoinTNet.UI.Controls
                 decimal total = decimal.Parse(txtSellAmount.Text, CultureInfo.InvariantCulture) * decimal.Parse(txtSellPrice.Text, CultureInfo.InvariantCulture);
                 decimal totalFee = total * _fee / 100m;
                 bool feeDeductedFromTotal = SelectedPair.Exchange.FeeDeductedFromTotal;
-                lblSellFee.Text = string.Format(CultureInfo.InvariantCulture, "{0:0.##} {1}", totalFee, _proxy.GetFeeUnit(SelectedPair, OrderType.Sell));
-                lblSellTotal.Text = string.Format(CultureInfo.InvariantCulture, "{0:0.##} {1} ", feeDeductedFromTotal ? total : total - totalFee, SelectedPair.Item2);
+                lblSellFee.Text = string.Format(CultureInfo.InvariantCulture, "{0:0.####} {1}", totalFee, _proxy.GetFeeUnit(SelectedPair, OrderType.Sell));
+                lblSellTotal.Text = string.Format(CultureInfo.InvariantCulture, "{0:0.####} {1} ", feeDeductedFromTotal ? total : total - totalFee, SelectedPair.Item2);
             }
         }
 

@@ -58,6 +58,11 @@ namespace CoinTNet.BLL
                 {
                     var newestCandles = GetCandlesFromBitcoincharts(minTime, candleDurationsInMinutes, pair.Exchange.BitcoinChartsCode, pair.Item2);
                     candles = candles.Union(newestCandles).ToList();
+                    if (candles.Count == 0)
+                    {
+                        newestCandles = GetCandlesFromBitcoinWisdom(pair, fromDateTime, candleDurationsInMinutes);
+                        candles = candles.Union(newestCandles).ToList();
+                    }
                 }
                 else
                 {
@@ -259,7 +264,7 @@ namespace CoinTNet.BLL
 
                     if (tradeFetcher.Result != null && tradeFetcher.Result.Count > 0)
                     {
-                        IList<OHLC> candles = CandlesProvider.CalculateOHLCFromTrades(tradeFetcher.Result, candlesDurationInMinutes, TradeSource.BitcoinCharts).Where(x => x.Date > minValue).ToList(); ;
+                        IList<OHLC> candles = CandlesProvider.CalculateOHLCFromTrades(tradeFetcher.Result, candlesDurationInMinutes, TradeSource.BitcoinCharts).Where(x => x.Date >= minValue).ToList(); ;
                         if (candles.Count() == 0 || candles.Last().Date == retrieveFrom)
                         {
                             break;

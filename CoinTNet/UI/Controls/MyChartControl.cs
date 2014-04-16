@@ -190,7 +190,7 @@ namespace CoinTNet.UI.Controls
                     if (index >= 0 && index <= chartCtrl.Series[Constants.PriceSerieName].Points.Count - 1)
                     {
                         var candle = chartCtrl.Series[Constants.PriceSerieName].Points[index].Tag as OHLC;
-                        lblInfo.Text = string.Format("Date: {0} - O: {1:0.00##} - H: {2:0.00##} - L: {3:0.00##} - C: {4:0.00##}", candle.Date, candle.Open, candle.High, candle.Low, candle.Close);
+                        lblInfo.Text = string.Format(CultureInfo.InvariantCulture, "Date: {0} - O: {1:0.00##} - H: {2:0.00##} - L: {3:0.00##} - C: {4:0.00##}", candle.Date, candle.Open, candle.High, candle.Low, candle.Close);
                     }
                     else
                     {
@@ -270,7 +270,7 @@ namespace CoinTNet.UI.Controls
             }
         }
 
-        public void Forecast()
+        private void Forecast()
         {
             // typeRegression is a string represented by one of the following strings:
             // "Linear", "Exponential", "Logarithmic", or "Power".
