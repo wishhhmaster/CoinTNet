@@ -69,3 +69,5 @@ There is a configuration file named CoinTNet.exe.config in the executable folder
 If you find this tool useful, you can show you support with a kind donation:
 
 BTC: 1JctmffLPQtcmTSBEDCDquGDeMprfqxX1k
+
+LTC: LXSogLKon4WHWzJvZouPpDYojkAHASixve
