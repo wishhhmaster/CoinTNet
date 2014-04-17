@@ -68,20 +68,21 @@ namespace CoinTNet.UI.Forms
             if (!_started)
             {
                 decimal amount = numAmount.Value;
-                string currency = cbbCurrency.GetSelectedValue<Tuple<string, string>>().Item2;
+                string currency = cbbCurrency.GetSelectedValue<string>().ToLower();
                 int freq = (int)numFrequency.Value;
                 decimal profitThreshold = numProfit.Value;
                 bool realTrading = chkRealTrading.Checked;
 
                 var allowedPairs = chkLbAllowedPairs.CheckedItems.ToListExt<object>()
-                    .Cast<ListControlItem<Tuple<string, BtcE.BtcePair>>>()
-                    .Select(i => i.Item.Item2).ToArray();
+                    .Cast<ListControlItem<BtcE.BtcePair>>()
+                    .Select(l => l.Item)
+                    .ToArray();
 
 
                 Task.Factory.StartNew(() => _arbitrageManager.Start(amount, currency, freq, profitThreshold, realTrading, allowedPairs))
                     .ContinueWith(t =>
                     {
-                        if(t.IsFaulted)
+                        if (t.IsFaulted)
                         {
                             ErrorHelper.DisplayErrorMessage("Une erreur s'est produite :\n" + t.Exception.ToString());
                         }
@@ -105,19 +106,21 @@ namespace CoinTNet.UI.Forms
         /// </summary>
         private void InitControls()
         {
-            Tuple<string, string>[] values = { Tuple.Create("BTC", "btc"), Tuple.Create("LTC", "ltc"), Tuple.Create("USD", "usd"),
-                                          Tuple.Create ("CNH", "cnh")};
-            cbbCurrency.PopulateCbbFromList(values, t => t.Item1, values[1]);
+            string[] values = { "BTC", "LTC", "USD", "EUR", "PPC", "NMC", "CNH" };
 
-            Tuple<string, BtcE.BtcePair>[] values2 = { Tuple.Create("BTC/USD", BtcE.BtcePair.btc_usd), Tuple.Create("LTC/USD", BtcE.BtcePair.ltc_usd), Tuple.Create("LTC/BTC", BtcE.BtcePair.ltc_btc ),
-                                          Tuple.Create ("BTC/CNH", BtcE.BtcePair.btc_cnh), Tuple.Create ("LTC/CNH", BtcE.BtcePair.ltc_cnh), Tuple.Create ("USD/CNH", BtcE.BtcePair.usd_cnh),
-                                          Tuple.Create ("BTC/EUR", BtcE.BtcePair.btc_eur), Tuple.Create ("LTC/EUR", BtcE.BtcePair.ltc_eur), Tuple.Create ("EUR/USD", BtcE.BtcePair.eur_usd),
-                                                     Tuple.Create ("BTC/GBP", BtcE.BtcePair.btc_gbp), Tuple.Create ("LTC/GBP", BtcE.BtcePair.ltc_gbp), Tuple.Create ("GBP/USD", BtcE.BtcePair.gbp_usd)};
 
-            for (int i = 0; i < values2.Length; i++)
+            cbbCurrency.PopulateCbbFromList(values, t => t, values[1]);
+
+            BtcE.BtcePair[] availablePairs = { BtcE.BtcePair.btc_usd,BtcE.BtcePair.ltc_usd, BtcE.BtcePair.ltc_btc,
+                                                         BtcE.BtcePair.nmc_usd, BtcE.BtcePair.nmc_btc, BtcE.BtcePair.ppc_usd, BtcE.BtcePair.ppc_btc,
+                                          BtcE.BtcePair.btc_cnh,BtcE.BtcePair.ltc_cnh, BtcE.BtcePair.usd_cnh,
+                                          BtcE.BtcePair.btc_eur,  BtcE.BtcePair.ltc_eur, BtcE.BtcePair.eur_usd,
+                                                     BtcE.BtcePair.btc_gbp, BtcE.BtcePair.ltc_gbp,  BtcE.BtcePair.gbp_usd};
+
+            for (int i = 0; i < availablePairs.Length; i++)
             {
-                var v = values2[i];
-                chkLbAllowedPairs.Items.Add(new ListControlItem<Tuple<string, BtcE.BtcePair>>(v, v.Item1), i < 6);
+                var p = availablePairs[i];
+                chkLbAllowedPairs.Items.Add(new ListControlItem<BtcE.BtcePair>(p, p.Item1().ToUpper() + "/" + p.Item2().ToUpper()), i < 7);
             }
         }
 

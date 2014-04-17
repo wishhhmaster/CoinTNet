@@ -100,14 +100,13 @@ namespace CoinTNet.BLL
 
                 foreach (var p in pairs)
                 {
-                    List<MyAction> list = new List<MyAction>();
                     BuildArbitrageTree(tickers, p, tree, originalAmount, p.Item1() == targetCurrency, targetCurrency);
                 }
 
                 var leaves = new List<NTree<MyAction>>();
                 tree.Traverse(n =>
                 {
-                    if (n.ChildrenCount == 0)
+                    if (n.Data.IsFinalAction)
                     {
                         leaves.Add(n);
                     }
@@ -200,6 +199,7 @@ namespace CoinTNet.BLL
 
             if (currencyNow == targetCurrency)
             {
+                newNode.Data.IsFinalAction = true;
                 return; //Done for that branch of the tree
             }
             //Check next possible conversions
@@ -316,6 +316,7 @@ namespace CoinTNet.BLL
         public string Currency2 { get; set; }
         public decimal Rate { get; set; }
         public bool IsBuyOrder { get; set; }
+        public bool IsFinalAction { get; set; }
 
         public string Description
         {
