@@ -59,7 +59,6 @@ There is a configuration file named CoinTNet.exe.config in the executable folder
 
 ### Warning
 
-- The keys/secrets in the config are not encrypted, meaning that anyone who has access to your computer could steal these keys.
 - The source code is provided as-is. There might be some bugs, so advise you to review the code before using it, especially before making trade orders.
 
 
