@@ -12,6 +12,9 @@ namespace CoinTNet.UI.Controls.News
     /// </summary>
     partial class NewsItemControl : UserControl
     {
+        /// <summary>
+        /// Event triggered when the user clicks on the news item
+        /// </summary>
         public event EventHandler<NewsItem> NewsRead;
 
         /// <summary>
@@ -33,8 +36,41 @@ namespace CoinTNet.UI.Controls.News
             //lblSummary.Text = newsItem.Summary;
         }
 
+        /// <summary>
+        /// Gets the news item associated with the control
+        /// </summary>
         public NewsItem NewsItem { get; private set; }
 
+        #region Public methods
+
+        /// <summary>
+        /// Sets the control's max width
+        /// </summary>
+        /// <param name="width"></param>
+        public void SetMaxWidth(int width)
+        {
+            this.MaximumSize = new Size(width, 0);
+            this.tlpNewsItem.MaximumSize = this.MaximumSize;
+            lblTitle.MaximumSize = this.MaximumSize;
+        }
+
+        /// <summary>
+        /// Notifies the controls that the news has been read
+        /// </summary>
+        public void TagAsRead()
+        {
+            lblFrom.Text = lblFrom.Text.Replace(" - NEW", string.Empty);
+            lblFrom.ForeColor = System.Drawing.SystemColors.ControlText;
+        }
+
+        #endregion
+
+
+        /// <summary>
+        /// Formats the display of the time the news was published
+        /// </summary>
+        /// <param name="newsItem">the news item</param>
+        /// <returns>A string like xx minutes/hours/days ago</returns>
         private static string FormatTime(NewsItem newsItem)
         {
             var diff = DateTime.Now - newsItem.DateTime;
@@ -52,6 +88,11 @@ namespace CoinTNet.UI.Controls.News
             }
         }
 
+        /// <summary>
+        /// Opens a browser to display the news and triggers the NewsRead item when the user clicks on a news
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void lblTitle_Click(object sender, EventArgs e)
         {
             TagAsRead();
@@ -62,17 +103,5 @@ namespace CoinTNet.UI.Controls.News
             }
         }
 
-        public void SetMaxWidth(int width)
-        {
-            this.MaximumSize = new Size(width, 0);
-            this.tlpNewsItem.MaximumSize = this.MaximumSize;
-            lblTitle.MaximumSize = this.MaximumSize;
-        }
-
-        public void TagAsRead()
-        {
-            lblFrom.Text = lblFrom.Text.Replace(" - NEW", string.Empty);
-            lblFrom.ForeColor = System.Drawing.SystemColors.ControlText;
-        }
     }
 }

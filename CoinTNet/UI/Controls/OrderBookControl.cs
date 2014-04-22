@@ -4,7 +4,6 @@ using CoinTNet.DO;
 using CoinTNet.DO.Exchanges;
 using CoinTNet.UI.Common;
 using CoinTNet.UI.Common.EventAggregator;
-using CoinTNet.UI.Forms;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -22,13 +21,13 @@ namespace CoinTNet.UI.Controls
     {
         #region Private members
         /// <summary>
-        /// The proxy
-        /// </summary>
-        private IExchange _proxy;
-        /// <summary>
         /// The update task
         /// </summary>
         private Task<List<SimpleOrderInfo>[]> _updateTask;
+        /// <summary>
+        /// The currently selected pair
+        /// </summary>
+        private CurrencyPair _selectedPair;
         #endregion
 
         /// <summary>
@@ -44,21 +43,13 @@ namespace CoinTNet.UI.Controls
             });
             btnRefresh.Click += (s, e) => UpdateOrderBook();
             tmrRefresh.Tick += (s, e) => UpdateOrderBook();
-            EventAggregator.Instance.Subscribe<ExchangeSelected>(m =>
+            EventAggregator.Instance.Subscribe<PairSelected>(m =>
+            {
+                if (m.SelectorType == SelectorType.Main)
                 {
-                    if (m.SelectorType == SelectorType.Main)
-                    {
-                        _proxy = ExchangeProxyFactory.GetProxy(m.InternalCode);
-                    }
-                });
-        }
-
-        /// <summary>
-        /// Gets the currently selected market pair
-        /// </summary>
-        private CurrencyPair SelectedPair
-        {
-            get { return (this.ParentForm as MainForm).SelectedPair; }
+                    _selectedPair = m.Pair;
+                }
+            });
         }
 
         /// <summary>
@@ -72,7 +63,10 @@ namespace CoinTNet.UI.Controls
                 _updateTask.ContinueWith(t =>
                 {
                     _updateTask = null;
-                    DisplayOrders(t.Result);
+                    if (t.Status == TaskStatus.RanToCompletion)
+                    {
+                        DisplayOrders(t.Result);
+                    }
                 }, CancellationToken.None, TaskContinuationOptions.None, TaskScheduler.FromCurrentSynchronizationContext());
             }
         }
@@ -83,7 +77,7 @@ namespace CoinTNet.UI.Controls
         /// <returns>A list of asks and a list of bids</returns>
         private List<SimpleOrderInfo>[] FetchOrders()
         {
-            var ordersRes = _proxy.GetOrderBook(SelectedPair);
+            var ordersRes =ExchangeProxyFactory.GetProxy(_selectedPair.Exchange.InternalCode).GetOrderBook(_selectedPair);
             if (!ordersRes.Success)
             {
                 return new List<SimpleOrderInfo>[0];
@@ -120,7 +114,7 @@ namespace CoinTNet.UI.Controls
 
             foreach (var point in chartOrderBook.Series["ask"].Points)
             {
-                point.ToolTip = string.Format(CultureInfo.InvariantCulture, "Amount : {0}\nPrice : {1}", point.YValues[0], point.XValue);
+                point.ToolTip = string.Format(CultureInfo.InvariantCulture, "Amount : {0}\nPrice : {1:0.00#####}", point.YValues[0], point.XValue);
             }
         }
 

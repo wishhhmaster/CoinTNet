@@ -43,7 +43,7 @@ namespace CoinTNet.BLL
 
             if (toDateTime == null)
             {
-                toDateTime = DateTime.Now;
+                toDateTime = DateTime.UtcNow;
             }
 
             if (lastCandle != null)
@@ -392,7 +392,10 @@ namespace CoinTNet.BLL
             return result.ToList();
         }
 
-
+        /// <summary>
+        /// Gets a reference to the BitcoinWisdom proxy
+        /// </summary>
+        /// <returns></returns>
         private static BitcoinWisdomAPI.BitcoinWisdomProxy GetBitcoinWisdomProxy()
         {
             if (_bitcoinWisdomProxy == null)
@@ -401,7 +404,7 @@ namespace CoinTNet.BLL
                 string url = string.Empty;
                 if (section != null && section.Count > 0)
                 {
-                    url = section["https://s2.bitcoinwisdom.com"];
+                    url = section["bitcoinwisdom.baseUrl"];
                 }
                 _bitcoinWisdomProxy = new BitcoinWisdomAPI.BitcoinWisdomProxy(url);
             }

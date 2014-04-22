@@ -72,23 +72,8 @@ namespace CoinTNet.UI.Forms
         #region Public Properties
 
         /// <summary>
-        /// Gets the selecged pais
-        /// </summary>
-        public CurrencyPair SelectedPair
-        {
-            get { return _selectedPair; }
-        }
-
-        /// <summary>
-        /// Gets the current candles
-        /// </summary>
-        public IList<OHLC> Candles
-        {
-            get { return _candles; }
-        }
-
-        /// <summary>
         /// Gets a value indicating whether the form is on design mode
+        /// Used so that the ticker does not start on it's own
         /// </summary>
         public bool IsDesignMode
         {
@@ -135,14 +120,12 @@ namespace CoinTNet.UI.Forms
         /// <param name="e"></param>
         private void OnSlowTimerTick(object sender, EventArgs e)
         {
-
             if (_updateCandlesTask == null || _updateCandlesTask.IsCompleted || _updateCandlesTask.IsFaulted || _updateCandlesTask.IsCanceled)
             {
                 if (DateTime.UtcNow.Subtract(_lastUpdate).TotalSeconds >= 5)
                 {
                     int period = dataSelector.SelectedPeriodInMin;
-                    var pair = SelectedPair;
-                    var updateTask = Task.Factory.StartNew(() => { UpdateCandles(period, pair); });
+                    var updateTask = Task.Factory.StartNew(() => { UpdateCandles(period, _selectedPair); });
                     _updateCandlesTask = updateTask.ContinueWith(_ =>
                     {
                         if (_candles.Count > 0)
@@ -297,6 +280,14 @@ namespace CoinTNet.UI.Forms
         {
             var asf = new BackTestingForm(true);
             asf.Show();
+        }
+
+        private void btnOptions_Click(object sender, EventArgs e)
+        {
+            using(var of = new OptionsForm())
+            {
+                of.ShowDialog();
+            }
         }
 
     }

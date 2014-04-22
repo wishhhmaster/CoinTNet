@@ -5,7 +5,6 @@ using CoinTNet.DO;
 using CoinTNet.DO.Exchanges;
 using CoinTNet.UI.Common;
 using CoinTNet.UI.Common.EventAggregator;
-using CoinTNet.UI.Forms;
 using System;
 using System.Globalization;
 using System.Windows.Forms;
@@ -26,7 +25,10 @@ namespace CoinTNet.UI.Controls
         /// The fee applying to transactions
         /// </summary>
         private decimal _fee;
-
+        /// <summary>
+        /// Gets the currently selected currency pair
+        /// </summary>
+        private CurrencyPair _selectedPair;
         #endregion
 
         /// <summary>
@@ -39,14 +41,19 @@ namespace CoinTNet.UI.Controls
             EventAggregator.Instance.Subscribe<TickerUpdateMessage>(m => OnTickerUpdate(m.Ticker));
             EventAggregator.Instance.Subscribe<ExchangeSelected>(m => OnExchangeSelected(m));
             EventAggregator.Instance.Subscribe<PairSelected>(m => OnPairChanged(m));
+            EventAggregator.Instance.Subscribe<SecuredDataChanged>(m => OnSecuredDataChanged(m));
         }
 
         /// <summary>
-        /// Gets the currently selected currency pair
+        /// Reinitialises the proxy if the user changes the API authentication settings for this proxy
         /// </summary>
-        private CurrencyPair SelectedPair
+        /// <param name="m"></param>
+        private void OnSecuredDataChanged(SecuredDataChanged m)
         {
-            get { return (this.ParentForm as MainForm).SelectedPair; }
+            if (m.DataKey == _selectedPair.Exchange.InternalCode)
+            {
+                _proxy = ExchangeProxyFactory.GetProxy(m.DataKey);
+            }
         }
 
         /// <summary>
@@ -72,6 +79,7 @@ namespace CoinTNet.UI.Controls
             }
             try
             {
+                _selectedPair = m.Pair;
                 lblItem1Balance.Text = lblItem2Balance.Text = string.Empty;
                 txtBuyAmount.Text = txtBuyPrice.Text = txtSellAmount.Text = txtSellPrice.Text = string.Empty;
                 var feeRes = _proxy.GetFee(m.Pair);
@@ -93,23 +101,23 @@ namespace CoinTNet.UI.Controls
         /// </summary>
         private void UpdateBalance()
         {
-            var tickerRes = _proxy.GetTicker(SelectedPair);
+            var tickerRes = _proxy.GetTicker(_selectedPair);
             if (!tickerRes.Success)
             {
                 ErrorHelper.DisplayErrorMessage(tickerRes.ErrorMessage);
                 return;
             }
             var ticker = tickerRes.Result;
-            string currency = SelectedPair.Item2;
+            string currency = _selectedPair.Item2;
             OnTickerUpdate(ticker);
 
-            var balRes = _proxy.GetBalance(SelectedPair);
+            var balRes = _proxy.GetBalance(_selectedPair);
             if (balRes.Success)
             {
                 var bal = balRes.Result;
                 _fee = bal.Fee;
-                lblItem1Balance.Text = string.Format(CultureInfo.InvariantCulture, "{0:0.00###} {1}", bal.Balances[SelectedPair.Item1], SelectedPair.Item1);
-                lblItem2Balance.Text = string.Format(CultureInfo.InvariantCulture, "{0:0.00###} {1}", bal.Balances[SelectedPair.Item2], currency);
+                lblItem1Balance.Text = string.Format(CultureInfo.InvariantCulture, "{0:0.00###} {1}", bal.Balances[_selectedPair.Item1], _selectedPair.Item1);
+                lblItem2Balance.Text = string.Format(CultureInfo.InvariantCulture, "{0:0.00###} {1}", bal.Balances[_selectedPair.Item2], currency);
             }
             else
             {
@@ -124,7 +132,7 @@ namespace CoinTNet.UI.Controls
         /// <param name="ticker"></param>
         private void OnTickerUpdate(Ticker ticker)
         {
-            string currency = SelectedPair.Item2;
+            string currency = _selectedPair.Item2;
 
             lblLowestAsk.Text = string.Format(CultureInfo.InvariantCulture, "{0:0.00###} {1}", ticker.Ask, currency);
             lblHighestBid.Text = string.Format(CultureInfo.InvariantCulture, "{0:0.00###} {1}", ticker.Bid, currency);
@@ -173,7 +181,7 @@ namespace CoinTNet.UI.Controls
             {
                 decimal amount = balance / buyPrice;
 
-                if (!SelectedPair.Exchange.FeeDeductedFromTotal)
+                if (!_selectedPair.Exchange.FeeDeductedFromTotal)
                 {
                     amount = 100 * balance / ((100 + _fee) * buyPrice);
                 }
@@ -214,9 +222,9 @@ namespace CoinTNet.UI.Controls
             {
                 decimal total = amount * price;
                 decimal totalFee = total * _fee / 100m;
-                bool feeDeductedFromTotal = SelectedPair.Exchange.FeeDeductedFromTotal;
-                lblBuyFee.Text = string.Format(CultureInfo.InvariantCulture, "{0:0.####} {1}", totalFee, _proxy.GetFeeUnit(SelectedPair, OrderType.Buy));
-                lblBuyTotal.Text = string.Format(CultureInfo.InvariantCulture, "{0:0.####} {1}", feeDeductedFromTotal ? total : total + totalFee, SelectedPair.Item2);
+                bool feeDeductedFromTotal = _selectedPair.Exchange.FeeDeductedFromTotal;
+                lblBuyFee.Text = string.Format(CultureInfo.InvariantCulture, "{0:0.####} {1}", totalFee, _proxy.GetFeeUnit(_selectedPair, OrderType.Buy));
+                lblBuyTotal.Text = string.Format(CultureInfo.InvariantCulture, "{0:0.####} {1}", feeDeductedFromTotal ? total : total + totalFee, _selectedPair.Item2);
             }
         }
 
@@ -233,9 +241,9 @@ namespace CoinTNet.UI.Controls
             {
                 decimal total = decimal.Parse(txtSellAmount.Text, CultureInfo.InvariantCulture) * decimal.Parse(txtSellPrice.Text, CultureInfo.InvariantCulture);
                 decimal totalFee = total * _fee / 100m;
-                bool feeDeductedFromTotal = SelectedPair.Exchange.FeeDeductedFromTotal;
-                lblSellFee.Text = string.Format(CultureInfo.InvariantCulture, "{0:0.####} {1}", totalFee, _proxy.GetFeeUnit(SelectedPair, OrderType.Sell));
-                lblSellTotal.Text = string.Format(CultureInfo.InvariantCulture, "{0:0.####} {1} ", feeDeductedFromTotal ? total : total - totalFee, SelectedPair.Item2);
+                bool feeDeductedFromTotal = _selectedPair.Exchange.FeeDeductedFromTotal;
+                lblSellFee.Text = string.Format(CultureInfo.InvariantCulture, "{0:0.####} {1}", totalFee, _proxy.GetFeeUnit(_selectedPair, OrderType.Sell));
+                lblSellTotal.Text = string.Format(CultureInfo.InvariantCulture, "{0:0.####} {1} ", feeDeductedFromTotal ? total : total - totalFee, _selectedPair.Item2);
             }
         }
 
@@ -251,7 +259,7 @@ namespace CoinTNet.UI.Controls
                 decimal amount, price;
                 if (decimal.TryParse(txtBuyAmount.Text, NumberStyles.Currency, CultureInfo.InvariantCulture, out amount) && decimal.TryParse(txtBuyPrice.Text, NumberStyles.Currency, CultureInfo.InvariantCulture, out price))
                 {
-                    var orderDetailsRes = _proxy.PlaceBuyOrder(amount, price, SelectedPair);
+                    var orderDetailsRes = _proxy.PlaceBuyOrder(amount, price, _selectedPair);
                     if (orderDetailsRes.Success)
                     {
                         EventAggregator.Instance.Publish(new OrderSentMessage());
@@ -285,7 +293,7 @@ namespace CoinTNet.UI.Controls
                 decimal amount, price;
                 if (decimal.TryParse(txtSellAmount.Text, NumberStyles.Currency, CultureInfo.InvariantCulture, out amount) && decimal.TryParse(txtSellPrice.Text, NumberStyles.Currency, CultureInfo.InvariantCulture, out price))
                 {
-                    var orderDetailsRes = _proxy.PlaceSellOrder(amount, price, SelectedPair);
+                    var orderDetailsRes = _proxy.PlaceSellOrder(amount, price, _selectedPair);
                     if (orderDetailsRes.Success)
                     {
                         EventAggregator.Instance.Publish(new OrderSentMessage());

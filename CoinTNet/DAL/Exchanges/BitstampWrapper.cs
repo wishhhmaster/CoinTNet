@@ -1,5 +1,7 @@
-﻿using CoinTNet.DO;
+﻿using CoinTNet.Common.Constants;
+using CoinTNet.DO;
 using CoinTNet.DO.Exchanges;
+using CoinTNet.DO.Security;
 using System;
 using System.Collections.Specialized;
 using System.Configuration;
@@ -24,17 +26,15 @@ namespace CoinTNet.DAL.Exchanges
         /// </summary>
         public BitstampWrapper()
         {
+            var p = SecureStorage.GetEncryptedData<BitstampAPIParams>(SecuredDataKeys.BitstampAPI);
             NameValueCollection section = (NameValueCollection)ConfigurationManager.GetSection("CoinTNet");
-            string clientId = string.Empty, key = string.Empty, secret = string.Empty, baseUrl = string.Empty;
+            string baseUrl = string.Empty;
             if (section != null && section.Count > 0)
             {
-                key = section["bitstamp.key"];
-                secret = section["bitstamp.secret"];
-                clientId = section["bitstamp.clientId"];
-                baseUrl = section["bitstamp.baseUrl"];
+                baseUrl = section["bitstamp.APIBaseUrl"];
             }
 
-            _proxy = new BitstampAPI.BitstampProxy(baseUrl, clientId, key, secret);
+            _proxy = new BitstampAPI.BitstampProxy(baseUrl, p.ClientID, p.APIKey, p.APISecret);
         }
 
         /// <summary>
@@ -74,6 +74,7 @@ namespace CoinTNet.DAL.Exchanges
                 var bal = new Balance();
                 bal.Balances[pair.Item1] = b.AvailableBTC;
                 bal.Balances[pair.Item2] = b.AvailableUSD;
+                bal.Fee = b.Fee;
                 return bal;
             });
         }

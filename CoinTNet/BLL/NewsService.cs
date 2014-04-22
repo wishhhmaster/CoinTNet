@@ -3,8 +3,6 @@ using CoinTNet.DAL;
 using CoinTNet.DO;
 using System;
 using System.Collections.Generic;
-using System.Collections.Specialized;
-using System.Configuration;
 using System.Globalization;
 using System.IO;
 using System.Linq;
@@ -19,11 +17,6 @@ namespace CoinTNet.BLL
     class NewsService
     {
         #region Private members
-
-        /// <summary>
-        /// The proxy to access Twitter
-        /// </summary>
-        private TwitterProxy _twitterProxy;
         /// <summary>
         /// The DB context
         /// </summary>
@@ -37,18 +30,6 @@ namespace CoinTNet.BLL
         public NewsService()
         {
             _dbContext = new CoinTNetContext();
-            NameValueCollection section = (NameValueCollection)ConfigurationManager.GetSection("CoinTNet");
-            string consumerKey = string.Empty, secret = string.Empty, baseUrl = string.Empty;
-            if (section != null && section.Count > 0)
-            {
-                consumerKey = section["twitter.consumerKey"];
-                secret = section["twitter.secretKey"];
-                baseUrl = section["twitter.baseUrl"];
-            }
-            if (!string.IsNullOrEmpty(consumerKey) && !string.IsNullOrEmpty(secret))
-            {
-                _twitterProxy = new TwitterProxy(consumerKey, secret, baseUrl);
-            }
         }
 
         /// <summary>
@@ -60,14 +41,15 @@ namespace CoinTNet.BLL
         /// <returns>A list of NewsItems</returns>
         public List<NewsItem> GetItemsFromTwitter(string userName, int count, DateTimeOffset minDateTime)
         {
-            if (_twitterProxy == null)
+            var proxy = TwitterProxyFactory.GetProxy();
+            if (!proxy.HasKeys)
             {
                 return new List<NewsItem>();
             }
             try
             {
                 var lines = GetReadNews();
-                var items = _twitterProxy.GetTweets(userName, count).Where(t => t.CreatedAt >= minDateTime).Select(t => new NewsItem
+                var items = proxy.GetTweets(userName, count).Where(t => t.CreatedAt >= minDateTime).Select(t => new NewsItem
                 {
                     DateTime = t.CreatedAt,
                     Title = t.Text,

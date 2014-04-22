@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 
 namespace CoinTNet.DO
 {
@@ -9,6 +10,7 @@ namespace CoinTNet.DO
     /// 
     /// </summary>
     /// <typeparam name="T">The type of data held by the node</typeparam>
+    [DebuggerDisplay("{Data}")]
     class NTree<T>
     {
         /// <summary>

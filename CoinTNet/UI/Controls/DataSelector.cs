@@ -236,7 +236,7 @@ namespace CoinTNet.UI.Controls
             dtpTo.Enabled = !UseLiveData && !chkNow.Checked;
             if (chkNow.Checked)
             {
-                dtpTo.Value = DateTime.Now;
+                dtpTo.Value = DateTime.UtcNow;
             }
         }
     }

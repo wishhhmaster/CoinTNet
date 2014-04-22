@@ -43,5 +43,17 @@ namespace CoinTNet.DAL
             return ret;
         }
 
+        /// <summary>
+        /// Notifies the factory that api key/secret have changed
+        /// </summary>
+        /// <param name="exchangeCode"></param>
+        public static void NotifySettingsChanged(string exchangeCode)
+        {
+            if (_singletons.ContainsKey(exchangeCode))
+            {
+                _singletons.Remove(exchangeCode);
+            }
+        }
+
     }
 }

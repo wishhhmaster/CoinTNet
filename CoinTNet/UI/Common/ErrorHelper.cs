@@ -20,6 +20,15 @@ namespace CoinTNet.UI.Common
         }
 
         /// <summary>
+        /// Displays a warning message
+        /// </summary>
+        /// <param name="msg">The message to display</param>
+        public static void DisplayWarningMessage(string msg)
+        {
+            MessageBox.Show(msg, ApplicationConstants.ApplicationName, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+        }
+
+        /// <summary>
         /// Logs an error and display a message informing the user that the application is going to crash
         /// </summary>
         /// <param name="ex"></param>
@@ -27,6 +36,7 @@ namespace CoinTNet.UI.Common
         {
             Logger.Log(ex, "Application crash");
             DisplayErrorMessage("The application is about to crash. Error:\n" + ex.ToString());
+            Environment.Exit(0);
         }
     }
 }

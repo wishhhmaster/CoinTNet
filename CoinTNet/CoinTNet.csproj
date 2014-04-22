@@ -74,7 +74,10 @@
   <ItemGroup>
     <Compile Include="BLL\ArbitrageManager.cs" />
     <Compile Include="BLL\Attributes\StrategyAttribute.cs" />
+    <Compile Include="BLL\AuthenticationService.cs" />
     <Compile Include="BLL\CandlesProvider.cs" />
+    <Compile Include="DAL\TwitterProxyFactory.cs" />
+    <Compile Include="DAL\SecureStorage.cs" />
     <Compile Include="BLL\TradingIndicators\ITradingIndicator.cs" />
     <Compile Include="BLL\NewsService.cs" />
     <Compile Include="BLL\TradingStrategies\BaseTradingStrategy.cs" />
@@ -89,6 +92,8 @@
     <Compile Include="Common\Constants\ExchangesConstants.cs" />
     <Compile Include="Common\Extensions.cs" />
     <Compile Include="Common\Logger.cs" />
+    <Compile Include="Common\SecurityHelper.cs" />
+    <Compile Include="Common\UserContext.cs" />
     <Compile Include="DAL\Exchanges\BitstampWrapper.cs" />
     <Compile Include="DAL\Exchanges\BtceWrapper.cs" />
     <Compile Include="DAL\CSVCandleRepository.cs" />
@@ -108,12 +113,33 @@
     <Compile Include="DO\Exchanges\TransactionList.cs" />
     <Compile Include="DO\NewsItem.cs" />
     <Compile Include="DO\Ntree.cs" />
+    <Compile Include="DO\Security\TwitterAPIParams.cs" />
+    <Compile Include="DO\Security\BtceAPIParams.cs" />
+    <Compile Include="DO\Security\BitstampAPIParams.cs" />
     <Compile Include="DO\Strategies\TradingAdvice.cs" />
     <Compile Include="DO\Tweet.cs" />
     <Compile Include="UI\Common\ErrorHelper.cs" />
     <Compile Include="UI\Common\EventAggregator\EventAggregator.cs" />
     <Compile Include="UI\Common\EventAggregator\Subscription.cs" />
     <Compile Include="UI\Common\Messages.cs" />
+    <Compile Include="UI\Controls\Options\TwitterKeysControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UI\Controls\Options\TwitterKeysControl.Designer.cs">
+      <DependentUpon>TwitterKeysControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI\Controls\Options\BtceKeysControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UI\Controls\Options\BtceKeysControl.Designer.cs">
+      <DependentUpon>BtceKeysControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI\Controls\Options\BitstampKeysControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UI\Controls\Options\BitstampKeysControl.Designer.cs">
+      <DependentUpon>BitstampKeysControl.cs</DependentUpon>
+    </Compile>
     <Compile Include="UI\Controls\StrategyParameters\MACDStrategyControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -170,6 +196,12 @@
     </Compile>
     <Compile Include="UI\Forms\IndicatorsForm.Designer.cs">
       <DependentUpon>IndicatorsForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI\Forms\LoginForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UI\Forms\LoginForm.Designer.cs">
+      <DependentUpon>LoginForm.cs</DependentUpon>
     </Compile>
     <Compile Include="UI\Forms\MainForm.cs">
       <SubType>Form</SubType>
@@ -232,7 +264,23 @@
     <Compile Include="UI\Forms\NotificationPopUp.Designer.cs">
       <DependentUpon>NotificationPopUp.cs</DependentUpon>
     </Compile>
+    <Compile Include="UI\Forms\OptionsForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UI\Forms\OptionsForm.Designer.cs">
+      <DependentUpon>OptionsForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI\Interfaces\IOptionControl.cs" />
     <Compile Include="UI\Interfaces\IStrategySettingsControl.cs" />
+    <EmbeddedResource Include="UI\Controls\Options\TwitterKeysControl.resx">
+      <DependentUpon>TwitterKeysControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\Controls\Options\BtceKeysControl.resx">
+      <DependentUpon>BtceKeysControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\Controls\Options\BitstampKeysControl.resx">
+      <DependentUpon>BitstampKeysControl.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="UI\Controls\StrategyParameters\MACDStrategyControl.resx">
       <DependentUpon>MACDStrategyControl.cs</DependentUpon>
     </EmbeddedResource>
@@ -259,6 +307,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="UI\Forms\IndicatorsForm.resx">
       <DependentUpon>IndicatorsForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\Forms\LoginForm.resx">
+      <DependentUpon>LoginForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UI\Forms\MainForm.resx">
       <DependentUpon>MainForm.cs</DependentUpon>
@@ -293,6 +344,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="UI\Forms\NotificationPopUp.resx">
       <DependentUpon>NotificationPopUp.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\Forms\OptionsForm.resx">
+      <DependentUpon>OptionsForm.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
@@ -347,6 +401,8 @@
     <Content Include="MinMarker.bmp">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <None Include="Resources\key.png" />
+    <None Include="Resources\lock.png" />
     <None Include="Resources\disk.png" />
     <None Include="Resources\chart_curve.png" />
     <None Include="Resources\add.png" />

@@ -19,7 +19,10 @@ namespace CoinTNet.UI.Controls
         /// The proxy
         /// </summary>
         private IExchange _proxy;
-
+         /// <summary>
+        /// Gets the currently selected pair
+        /// </summary>
+        private CurrencyPair _selectedPair;
         #endregion
 
         /// <summary>
@@ -32,14 +35,19 @@ namespace CoinTNet.UI.Controls
             EventAggregator.Instance.Subscribe<OrderSentMessage>(m => RefreshOrders());
             EventAggregator.Instance.Subscribe<ExchangeSelected>(m => OnExchangeSelected(m));
             EventAggregator.Instance.Subscribe<PairSelected>(m => OnPairSelected(m));
+            EventAggregator.Instance.Subscribe<SecuredDataChanged>(m => OnSecuredDataChanged(m));
         }
 
         /// <summary>
-        /// Gets the currently selected pair
+        /// Reinitialises the proxy if the user changes the API authentication settings for this proxy
         /// </summary>
-        private CurrencyPair CurrentPair
+        /// <param name="m"></param>
+        private void OnSecuredDataChanged(SecuredDataChanged m)
         {
-            get { return (this.ParentForm as CoinTNet.UI.Forms.MainForm).SelectedPair; }
+            if (m.DataKey == _selectedPair.Exchange.InternalCode)
+            {
+                _proxy = ExchangeProxyFactory.GetProxy(m.DataKey);
+            }
         }
 
         /// <summary>
@@ -61,6 +69,7 @@ namespace CoinTNet.UI.Controls
         {
             if (message.SelectorType == SelectorType.Main)
             {
+                _selectedPair = message.Pair;
                 dgvOpenOrders.Rows.Clear();
                 colAmount.HeaderText = message.Pair.Item1 + " Amount";
                 colPrice.HeaderText = "Price in " + message.Pair.Item2;
@@ -73,7 +82,7 @@ namespace CoinTNet.UI.Controls
         /// </summary>
         private void RefreshOrders()
         {
-            var openOrdersRes = _proxy.GetOpenOrders(CurrentPair);
+            var openOrdersRes = _proxy.GetOpenOrders(_selectedPair);
             dgvOpenOrders.SuspendLayout();
             dgvOpenOrders.Rows.Clear();
             if (openOrdersRes.Success)

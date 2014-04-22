@@ -1,9 +1,13 @@
 ﻿using CoinTNet.UI.Common;
+using CoinTNet.UI.Forms;
 using System;
 using System.Windows.Forms;
 
 namespace CoinTNet
 {
+    /// <summary>
+    /// Contains the entry point for the programme
+    /// </summary>
     static class Program
     {
         /// <summary>
@@ -24,7 +28,14 @@ namespace CoinTNet
             {
                 Application.EnableVisualStyles();
                 Application.SetCompatibleTextRenderingDefault(false);
-                Application.Run(new CoinTNet.UI.Forms.MainForm());
+                using (var lf = new LoginForm())
+                {
+                    lf.ShowDialog();
+                    if (lf.DialogResult == DialogResult.OK)
+                    {
+                        Application.Run(new MainForm());
+                    }
+                }
             }
             catch (Exception e)
             {

@@ -1,11 +1,6 @@
 ﻿using CoinTNet.DO;
 using CoinTNet.DO.Exchanges;
 using CoinTNet.UI.Common.EventAggregator;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace CoinTNet.UI.Common
 {
@@ -47,5 +42,10 @@ namespace CoinTNet.UI.Common
     class NotificationReadMessage<T> : IMessage
     {
         public T Object { get; set; }
+    }
+
+    class SecuredDataChanged : IMessage
+    {
+        public string DataKey { get; set; }
     }
 }

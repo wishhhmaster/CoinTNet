@@ -40,6 +40,7 @@
             this.orderControl = new CoinTNet.UI.Controls.OrderControl();
             this.tcRightPane = new System.Windows.Forms.TabControl();
             this.tpGeneral = new System.Windows.Forms.TabPage();
+            this.btnOptions = new CoinTNet.UI.Controls.Common.MyButton();
             this.btnSaveCandles = new System.Windows.Forms.Button();
             this.btnBackTesting = new CoinTNet.UI.Controls.Common.MyButton();
             this.btnIndicators = new CoinTNet.UI.Controls.Common.MyButton();
@@ -47,6 +48,7 @@
             this.orderBookControl1 = new CoinTNet.UI.Controls.OrderBookControl();
             this.tpNews = new System.Windows.Forms.TabPage();
             this.newsListControl = new CoinTNet.UI.Controls.NewsListControl();
+            this.panel1 = new System.Windows.Forms.Panel();
             this.statusStrip.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
@@ -55,6 +57,7 @@
             this.tcRightPane.SuspendLayout();
             this.tpGeneral.SuspendLayout();
             this.tpNews.SuspendLayout();
+            this.panel1.SuspendLayout();
             this.SuspendLayout();
             // 
             // tmrSlowRefresh
@@ -163,10 +166,7 @@
             // 
             // tpGeneral
             // 
-            this.tpGeneral.Controls.Add(this.btnSaveCandles);
-            this.tpGeneral.Controls.Add(this.btnBackTesting);
-            this.tpGeneral.Controls.Add(this.btnIndicators);
-            this.tpGeneral.Controls.Add(this.btnArbitrage);
+            this.tpGeneral.Controls.Add(this.panel1);
             this.tpGeneral.Controls.Add(this.orderBookControl1);
             this.tpGeneral.Location = new System.Drawing.Point(4, 24);
             this.tpGeneral.Name = "tpGeneral";
@@ -176,13 +176,28 @@
             this.tpGeneral.Text = "General";
             this.tpGeneral.UseVisualStyleBackColor = true;
             // 
+            // btnOptions
+            // 
+            this.btnOptions.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnOptions.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnOptions.Image = global::CoinTNet.Properties.Resources.key;
+            this.btnOptions.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btnOptions.Location = new System.Drawing.Point(32, 107);
+            this.btnOptions.Name = "btnOptions";
+            this.btnOptions.Size = new System.Drawing.Size(85, 25);
+            this.btnOptions.TabIndex = 34;
+            this.btnOptions.Text = "Options";
+            this.btnOptions.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.btnOptions.UseVisualStyleBackColor = true;
+            this.btnOptions.Click += new System.EventHandler(this.btnOptions_Click);
+            // 
             // btnSaveCandles
             // 
             this.btnSaveCandles.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.btnSaveCandles.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.btnSaveCandles.Image = global::CoinTNet.Properties.Resources.disk;
             this.btnSaveCandles.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnSaveCandles.Location = new System.Drawing.Point(23, 16);
+            this.btnSaveCandles.Location = new System.Drawing.Point(32, 24);
             this.btnSaveCandles.Name = "btnSaveCandles";
             this.btnSaveCandles.Size = new System.Drawing.Size(112, 25);
             this.btnSaveCandles.TabIndex = 9;
@@ -195,7 +210,7 @@
             // 
             this.btnBackTesting.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.btnBackTesting.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnBackTesting.Location = new System.Drawing.Point(152, 16);
+            this.btnBackTesting.Location = new System.Drawing.Point(168, 24);
             this.btnBackTesting.Name = "btnBackTesting";
             this.btnBackTesting.Size = new System.Drawing.Size(93, 25);
             this.btnBackTesting.TabIndex = 33;
@@ -209,7 +224,7 @@
             this.btnIndicators.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnIndicators.Image = global::CoinTNet.Properties.Resources.chart_curve;
             this.btnIndicators.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnIndicators.Location = new System.Drawing.Point(23, 51);
+            this.btnIndicators.Location = new System.Drawing.Point(32, 59);
             this.btnIndicators.Name = "btnIndicators";
             this.btnIndicators.Size = new System.Drawing.Size(85, 25);
             this.btnIndicators.TabIndex = 32;
@@ -222,7 +237,7 @@
             // 
             this.btnArbitrage.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.btnArbitrage.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnArbitrage.Location = new System.Drawing.Point(152, 51);
+            this.btnArbitrage.Location = new System.Drawing.Point(168, 60);
             this.btnArbitrage.Name = "btnArbitrage";
             this.btnArbitrage.Size = new System.Drawing.Size(75, 25);
             this.btnArbitrage.TabIndex = 31;
@@ -232,12 +247,10 @@
             // 
             // orderBookControl1
             // 
-            this.orderBookControl1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.orderBookControl1.Location = new System.Drawing.Point(6, 250);
+            this.orderBookControl1.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.orderBookControl1.Location = new System.Drawing.Point(3, 394);
             this.orderBookControl1.Name = "orderBookControl1";
-            this.orderBookControl1.Size = new System.Drawing.Size(262, 276);
+            this.orderBookControl1.Size = new System.Drawing.Size(268, 230);
             this.orderBookControl1.TabIndex = 29;
             // 
             // tpNews
@@ -259,6 +272,19 @@
             this.newsListControl.Size = new System.Drawing.Size(268, 621);
             this.newsListControl.TabIndex = 0;
             // 
+            // panel1
+            // 
+            this.panel1.Controls.Add(this.btnSaveCandles);
+            this.panel1.Controls.Add(this.btnOptions);
+            this.panel1.Controls.Add(this.btnArbitrage);
+            this.panel1.Controls.Add(this.btnIndicators);
+            this.panel1.Controls.Add(this.btnBackTesting);
+            this.panel1.Dock = System.Windows.Forms.DockStyle.Top;
+            this.panel1.Location = new System.Drawing.Point(3, 3);
+            this.panel1.Name = "panel1";
+            this.panel1.Size = new System.Drawing.Size(268, 186);
+            this.panel1.TabIndex = 35;
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
@@ -279,6 +305,7 @@
             this.tcRightPane.ResumeLayout(false);
             this.tpGeneral.ResumeLayout(false);
             this.tpNews.ResumeLayout(false);
+            this.panel1.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -304,6 +331,8 @@
         private Controls.Common.MyButton btnBackTesting;
         private Controls.DataSelector dataSelector;
         private Controls.TickerControl tickerControl1;
+        private Controls.Common.MyButton btnOptions;
+        private System.Windows.Forms.Panel panel1;
 
 
     }

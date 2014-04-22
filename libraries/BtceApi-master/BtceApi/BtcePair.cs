@@ -18,6 +18,7 @@ namespace BtcE
 		eur_usd,
 		trc_btc,
 		ppc_btc,
+        ppc_usd,
 		ftc_btc,
         ltc_cnh,
         btc_cnh,

@@ -1,10 +1,10 @@
 ﻿using BtcE;
+using CoinTNet.Common.Constants;
 using CoinTNet.DAL.Interfaces;
 using CoinTNet.DO;
 using CoinTNet.DO.Exchanges;
+using CoinTNet.DO.Security;
 using System;
-using System.Collections.Specialized;
-using System.Configuration;
 using System.Linq;
 using DE = CoinTNet.DO.Exchanges;
 
@@ -27,15 +27,8 @@ namespace CoinTNet.DAL.Exchanges
         /// </summary>
         public BtceWrapper()
         {
-            NameValueCollection section = (NameValueCollection)ConfigurationManager.GetSection("CoinTNet");
-            string key = string.Empty, secret = string.Empty;
-            if (section != null && section.Count > 0)
-            {
-                key = section["btce.key"];
-                secret = section["btce.secret"];
-            }
-
-            _proxy = new BtceApi(key, secret);
+            var p = SecureStorage.GetEncryptedData<BtceAPIParams>(SecuredDataKeys.BtceAPI);
+            _proxy = new BtceApi(p.APIKey, p.APISecret);
         }
 
         /// <summary>

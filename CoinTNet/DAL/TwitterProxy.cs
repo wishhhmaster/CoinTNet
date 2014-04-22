@@ -45,6 +45,14 @@ namespace CoinTNet.DAL
             _secretKey = secretKey;
             _apiBaseUrl = apiBaseUrl;
         }
+
+        /// <summary>
+        /// Gets a value indicating whether keys have been provided to the proxy
+        /// </summary>
+        public bool HasKeys
+        {
+            get { return !string.IsNullOrEmpty(_consumerKey) && !string.IsNullOrEmpty(_secretKey); }
+        }
         /// <summary>
         /// Gets the access token
         /// </summary>

@@ -37,7 +37,10 @@ namespace BitstampAPI
         /// The current fee
         /// </summary>
         private decimal _fee = 0.0M;
-
+        /// <summary>
+        /// Used to compute hmac signature to sign data sent to the private API
+        /// </summary>
+        private HMACSHA256 _hmac;
         #endregion
 
         /// <summary>
@@ -53,6 +56,8 @@ namespace BitstampAPI
             _apiKey = apiKey;
             _secretKey = privateKey;
             _baseURL = baseURL;
+
+            _hmac = new HMACSHA256(UTF8Encoding.UTF8.GetBytes(_secretKey != null ? _secretKey : string.Empty));
         }
 
         /// <summary>
@@ -327,11 +332,8 @@ namespace BitstampAPI
         private Dictionary<string, string> GetAuthenticationArgs()
         {
             string nonce = DateTime.Now.Ticks.ToString();
-
-            HMACSHA256 hmac = new HMACSHA256(UTF8Encoding.UTF8.GetBytes(_secretKey));
-
             string message = nonce + _clientID + _apiKey;
-            var hash = hmac.ComputeHash(UTF8Encoding.UTF8.GetBytes(message));
+            var hash = _hmac.ComputeHash(UTF8Encoding.UTF8.GetBytes(message));
             string signature = BitConverter.ToString(hash).Replace("-", string.Empty).ToUpper();
 
             var args = new Dictionary<string, string>()
