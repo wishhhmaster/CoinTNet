@@ -444,7 +444,7 @@ namespace CoinTNet.UI.Controls
                 yAxis.Maximum = (double)maxPrice + range * extra / 100;
                 yAxis.Minimum = (double)minPrice - range * extra / 100;
                 yAxis.LabelStyle.Format = nbDecimals > 0 ? ("{0:0." + new string('#', nbDecimals) + "}") : "{0}";
-                
+
                 _mainChartArea.CursorY.Interval = cursorInterval;
 
                 if (zoomed)
@@ -509,12 +509,13 @@ namespace CoinTNet.UI.Controls
 
                 if (action != null)
                 {
-                    if (action.ActionType == ActionType.Bid)
-                        point.MarkerImage = "MaxMarker.bmp";
-                    else if (action.ActionType == ActionType.Ask)
-                        point.MarkerImage = "MinMarker.bmp";
+                    point.MarkerImage = action.ActionType == ActionType.Bid ? "MaxMarker.bmp" : "MinMarker.bmp";
 
                     point.MarkerImageTransparentColor = Color.White;
+                }
+                else if (!string.IsNullOrEmpty(point.MarkerImage))
+                {
+                    point.MarkerImage = string.Empty;
                 }
 
             }
