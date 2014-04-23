@@ -52,7 +52,8 @@ Otherwise, just extract the [CointT.Net-Release.zip](https://github.com/wishhhma
 
 ### Configuration
 
-There is a configuration file named CoinTNet.exe.config in the executable folder. With that file, you can configure:
+The API keys can be configured from the Options screen. They will be saved in an encrypted format on yor computer. API keys are:
+
 - Bitstamp's API parameters (needed if you want to send orders)
 - BTC-e API's parameters (needed if you want to send orders)
 - Twitter's parameters (needed if you want to retrieve Tweets)
