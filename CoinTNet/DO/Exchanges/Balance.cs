@@ -15,11 +15,6 @@ namespace CoinTNet.DO.Exchanges
             Balances = new Dictionary<string, decimal>();
         }
         /// <summary>
-        /// Gets the fee
-        /// </summary>
-        public decimal Fee { get; set; }
-
-        /// <summary>
         /// Holds balances per currency
         /// </summary>
         public Dictionary<string, decimal> Balances { get; private set; }

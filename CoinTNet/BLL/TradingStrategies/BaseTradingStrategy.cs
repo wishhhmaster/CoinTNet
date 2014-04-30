@@ -59,7 +59,7 @@ namespace CoinTNet.BLL.TradingStrategies
             _proxy = new FakeExchange();
             if (_proxy is FakeExchange)
             {
-                (_proxy as FakeExchange).Init(settings.InitialItem1Balance, settings.InitialItem2Balance, settings.Fee);
+                (_proxy as FakeExchange).Init(settings.InitialItem1Balance, settings.InitialItem2Balance, settings.BuyFee, settings.SellFee);
             }
 
         }
@@ -101,7 +101,8 @@ namespace CoinTNet.BLL.TradingStrategies
                 return;
             }
             var bal = balRes.Result;
-            var fee = bal.Fee;
+            var feeRes = _proxy.GetFee(_pair);
+            var fee = feeRes.Result;
 
             decimal totalAmountItem2 = bal.Balances[_pair.Item2];
             decimal totalAmountItem1 = bal.Balances[_pair.Item1];
@@ -163,7 +164,7 @@ namespace CoinTNet.BLL.TradingStrategies
                     {
 
                     }
-                    decimal transactionFee = Math.Round(availableAmountItem1ForSell * candle.Close * fee / 100m, 8);
+                    decimal transactionFee = Math.Round(availableAmountItem1ForSell * candle.Close * fee.SellFee / 100m, 8);
 
                     decimal nbUnitsToSell = availableAmountItem1ForSell > _settings.MaxNbBTCPerSellOrder ? _settings.MaxNbBTCPerSellOrder : availableAmountItem1ForSell;
                     //TODO: handle fees

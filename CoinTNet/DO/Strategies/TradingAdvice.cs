@@ -30,7 +30,8 @@ namespace CoinTNet.DO
 
         public decimal InitialItem2Balance { get; set; }
         public decimal InitialItem1Balance { get; set; }
-        public decimal Fee { get; set; }
+        public decimal BuyFee { get; set; }
+        public decimal SellFee { get; set; }
 
         public CurrencyPair Pair { get; set; }
     }

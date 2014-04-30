@@ -66,7 +66,7 @@ namespace CoinTNet.DAL.Interfaces
         /// </summary>
         /// <param name="pair">The currency pair</param>
         /// <returns>The fee</returns>
-        CallResult<decimal> GetFee(CurrencyPair pair);
+        CallResult<Fee> GetFee(CurrencyPair pair);
         /// <summary>
         /// Gets the unit for the fee for a given pair and order type
         /// </summary>

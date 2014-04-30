@@ -14,7 +14,7 @@ namespace CoinTNet.DAL.Exchanges
 
         private decimal _availableItem2;
         private decimal _availableItem1;
-        private decimal _fee;
+        private Fee _fee;
 
         #endregion
         /// <summary>
@@ -24,14 +24,22 @@ namespace CoinTNet.DAL.Exchanges
         {
             _availableItem2 = 4000;
             _availableItem1 = 2;
-            _fee = 0.3m;
+            _fee = new Fee
+            {
+                BuyFee = 0.5m,
+                SellFee = 0.5m
+            };
         }
 
-        public void Init(decimal balanceItem1, decimal balanceItem2, decimal fee)
+        public void Init(decimal balanceItem1, decimal balanceItem2, decimal buyFee, decimal sellFee)
         {
             _availableItem2 = balanceItem2;
             _availableItem1 = balanceItem1;
-            _fee = fee;
+            _fee = new Fee
+            {
+                BuyFee = buyFee,
+                SellFee = sellFee
+            };
         }
         public CallResult<Ticker> GetTicker(CurrencyPair pair)
         {
@@ -52,7 +60,6 @@ namespace CoinTNet.DAL.Exchanges
         {
             var bal = new Balance
             {
-                Fee = 0.3m,
             };
             bal.Balances[pair.Item1] = _availableItem1;
             bal.Balances[pair.Item2] = _availableItem2;
@@ -62,7 +69,7 @@ namespace CoinTNet.DAL.Exchanges
         public CallResult<OrderDetails> PlaceBuyOrder(decimal amount, decimal price, CurrencyPair pair)
         {
             System.Diagnostics.Debug.WriteLine(string.Format("Buying {0:0.00} {2} @ {1:0.00} {3}", amount, price, pair.Item1, pair.Item2));
-            _availableItem2 -= (amount * price + amount * price * _fee / 100);
+            _availableItem2 -= (amount * price + amount * price * _fee.BuyFee / 100);
             _availableItem1 += amount;
             return new CallResult<OrderDetails>(new OrderDetails
             {
@@ -75,7 +82,7 @@ namespace CoinTNet.DAL.Exchanges
         public CallResult<OrderDetails> PlaceSellOrder(decimal amount, decimal price, CurrencyPair pair)
         {
             System.Diagnostics.Debug.WriteLine(string.Format("Selling {0:0.00} {2} @ {1:0.00} {3}", amount, price, pair.Item1, pair.Item2));
-            _availableItem2 += (amount * price - amount * price * _fee / 100);
+            _availableItem2 += (amount * price - amount * price * _fee.SellFee / 100);
             _availableItem1 -= amount;
             return new CallResult<OrderDetails>(new OrderDetails
                 {
@@ -93,9 +100,9 @@ namespace CoinTNet.DAL.Exchanges
         {
             return new CallResult<OpenOrders>(new OpenOrders());
         }
-        public CallResult<decimal> GetFee(CurrencyPair pair)
+        public CallResult<Fee> GetFee(CurrencyPair pair)
         {
-            return new CallResult<decimal>(_fee);
+            return new CallResult<Fee>(_fee);
         }
 
         /// <summary>

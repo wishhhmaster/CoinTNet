@@ -36,7 +36,7 @@
             this.numMinAmountMoney = new System.Windows.Forms.NumericUpDown();
             this.numMinAmountBTC = new System.Windows.Forms.NumericUpDown();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.numFee = new System.Windows.Forms.NumericUpDown();
+            this.numBuyFee = new System.Windows.Forms.NumericUpDown();
             this.label8 = new System.Windows.Forms.Label();
             this.numBalBTCTest = new System.Windows.Forms.NumericUpDown();
             this.lblInitialItem1Balance = new System.Windows.Forms.Label();
@@ -52,15 +52,18 @@
             this.btnIndicators = new CoinTNet.UI.Controls.Common.MyButton();
             this.chartCtrl = new CoinTNet.UI.Controls.MyChartControl();
             this.btnApply = new CoinTNet.UI.Controls.Common.MyButton();
+            this.numSellFee = new System.Windows.Forms.NumericUpDown();
+            this.label2 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.numMinAmountMoney)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numMinAmountBTC)).BeginInit();
             this.groupBox1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.numFee)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numBuyFee)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numBalBTCTest)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numBalUSDTest)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numMaxNbBTCPerSellOrder)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numMaxAmountMoneyPerBuyOrder)).BeginInit();
             this.groupBox2.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.numSellFee)).BeginInit();
             this.SuspendLayout();
             // 
             // label1
@@ -136,7 +139,9 @@
             // 
             // groupBox1
             // 
-            this.groupBox1.Controls.Add(this.numFee);
+            this.groupBox1.Controls.Add(this.numSellFee);
+            this.groupBox1.Controls.Add(this.label2);
+            this.groupBox1.Controls.Add(this.numBuyFee);
             this.groupBox1.Controls.Add(this.label8);
             this.groupBox1.Controls.Add(this.numBalBTCTest);
             this.groupBox1.Controls.Add(this.lblInitialItem1Balance);
@@ -154,24 +159,24 @@
             this.groupBox1.Controls.Add(this.lblMinAmountItem1ToKeep);
             this.groupBox1.Location = new System.Drawing.Point(24, 383);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(610, 164);
+            this.groupBox1.Size = new System.Drawing.Size(610, 198);
             this.groupBox1.TabIndex = 2;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Base settings";
             // 
-            // numFee
+            // numBuyFee
             // 
-            this.numFee.DecimalPlaces = 2;
-            this.numFee.Location = new System.Drawing.Point(474, 129);
-            this.numFee.Maximum = new decimal(new int[] {
+            this.numBuyFee.DecimalPlaces = 2;
+            this.numBuyFee.Location = new System.Drawing.Point(474, 129);
+            this.numBuyFee.Maximum = new decimal(new int[] {
             100000,
             0,
             0,
             0});
-            this.numFee.Name = "numFee";
-            this.numFee.Size = new System.Drawing.Size(120, 20);
-            this.numFee.TabIndex = 7;
-            this.numFee.Value = new decimal(new int[] {
+            this.numBuyFee.Name = "numBuyFee";
+            this.numBuyFee.Size = new System.Drawing.Size(120, 20);
+            this.numBuyFee.TabIndex = 7;
+            this.numBuyFee.Value = new decimal(new int[] {
             3,
             0,
             0,
@@ -182,9 +187,9 @@
             this.label8.AutoSize = true;
             this.label8.Location = new System.Drawing.Point(319, 129);
             this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(25, 13);
+            this.label8.Size = new System.Drawing.Size(46, 13);
             this.label8.TabIndex = 17;
-            this.label8.Text = "Fee";
+            this.label8.Text = "Buy Fee";
             // 
             // numBalBTCTest
             // 
@@ -307,7 +312,7 @@
             // lblResult
             // 
             this.lblResult.AutoSize = true;
-            this.lblResult.Location = new System.Drawing.Point(26, 561);
+            this.lblResult.Location = new System.Drawing.Point(26, 584);
             this.lblResult.Name = "lblResult";
             this.lblResult.Size = new System.Drawing.Size(67, 13);
             this.lblResult.TabIndex = 14;
@@ -348,7 +353,7 @@
             // 
             this.btnApply.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.btnApply.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnApply.Location = new System.Drawing.Point(12, 587);
+            this.btnApply.Location = new System.Drawing.Point(12, 613);
             this.btnApply.Name = "btnApply";
             this.btnApply.Size = new System.Drawing.Size(75, 23);
             this.btnApply.TabIndex = 4;
@@ -356,12 +361,39 @@
             this.btnApply.UseVisualStyleBackColor = true;
             this.btnApply.Click += new System.EventHandler(this.btnApply_Click);
             // 
+            // numSellFee
+            // 
+            this.numSellFee.DecimalPlaces = 2;
+            this.numSellFee.Location = new System.Drawing.Point(474, 155);
+            this.numSellFee.Maximum = new decimal(new int[] {
+            100000,
+            0,
+            0,
+            0});
+            this.numSellFee.Name = "numSellFee";
+            this.numSellFee.Size = new System.Drawing.Size(120, 20);
+            this.numSellFee.TabIndex = 18;
+            this.numSellFee.Value = new decimal(new int[] {
+            3,
+            0,
+            0,
+            65536});
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(319, 155);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(45, 13);
+            this.label2.TabIndex = 19;
+            this.label2.Text = "Sell Fee";
+            // 
             // BackTestingForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
-            this.ClientSize = new System.Drawing.Size(1112, 622);
+            this.ClientSize = new System.Drawing.Size(1112, 648);
             this.Controls.Add(this.chartSelector);
             this.Controls.Add(this.lblResult);
             this.Controls.Add(this.btnIndicators);
@@ -376,12 +408,13 @@
             ((System.ComponentModel.ISupportInitialize)(this.numMinAmountBTC)).EndInit();
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.numFee)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numBuyFee)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numBalBTCTest)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numBalUSDTest)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numMaxNbBTCPerSellOrder)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numMaxAmountMoneyPerBuyOrder)).EndInit();
             this.groupBox2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.numSellFee)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -407,11 +440,13 @@
         private System.Windows.Forms.NumericUpDown numBalBTCTest;
         private System.Windows.Forms.Label lblInitialItem1Balance;
         private System.Windows.Forms.NumericUpDown numBalUSDTest;
-        private System.Windows.Forms.NumericUpDown numFee;
+        private System.Windows.Forms.NumericUpDown numBuyFee;
         private System.Windows.Forms.Label label8;
         private Controls.MyChartControl chartCtrl;
         private Controls.Common.MyButton btnIndicators;
         private System.Windows.Forms.Label lblResult;
         private Controls.DataSelector chartSelector;
+        private System.Windows.Forms.NumericUpDown numSellFee;
+        private System.Windows.Forms.Label label2;
     }
 }

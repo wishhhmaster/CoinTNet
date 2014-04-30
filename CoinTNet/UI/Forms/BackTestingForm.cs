@@ -235,6 +235,8 @@ namespace CoinTNet.UI.Forms
             strategySettings.InitialItem1Balance = numBalBTCTest.Value;
             strategySettings.InitialItem2Balance = numBalUSDTest.Value;
             strategySettings.Pair = chartSelector.SelectedPair;
+            strategySettings.BuyFee = numBuyFee.Value;
+            strategySettings.SellFee = numSellFee.Value;
 
             //strategy specific settings
             (_settingsCtrl as Interfaces.IStrategySettingsControl).FillSettings(strategySettings);

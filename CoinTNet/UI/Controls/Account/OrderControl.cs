@@ -24,7 +24,7 @@ namespace CoinTNet.UI.Controls
         /// <summary>
         /// The fee applying to transactions
         /// </summary>
-        private decimal _fee;
+        private Fee _fee;
         /// <summary>
         /// Gets the currently selected currency pair
         /// </summary>
@@ -86,7 +86,7 @@ namespace CoinTNet.UI.Controls
                 lblCurrency1.Text = lblCurrency2.Text = m.Pair.Item2;
                 lblSellAmountCurrency.Text = lblBuyAmountCurrency.Text = m.Pair.Item1;
 
-                _fee = feeRes.Success ? feeRes.Result : 0.03m;
+                _fee = feeRes.Success ? feeRes.Result : new Fee { BuyFee = 0.5m, SellFee = 0.5m };
                 lblBuyFee.Text = lblSellFee.Text = "0";
                 lblBuyTotal.Text = lblSellTotal.Text = "0";
             }
@@ -115,9 +115,9 @@ namespace CoinTNet.UI.Controls
             if (balRes.Success)
             {
                 var bal = balRes.Result;
-                _fee = bal.Fee;
-                lblItem1Balance.Text = string.Format(CultureInfo.InvariantCulture, "{0:0.00###} {1}", bal.Balances[_selectedPair.Item1], _selectedPair.Item1);
-                lblItem2Balance.Text = string.Format(CultureInfo.InvariantCulture, "{0:0.00###} {1}", bal.Balances[_selectedPair.Item2], currency);
+                _fee = _proxy.GetFee(_selectedPair).Result;
+                lblItem1Balance.Text = string.Format(CultureInfo.InvariantCulture, "{0:0.00#####} {1}", bal.Balances[_selectedPair.Item1], _selectedPair.Item1);
+                lblItem2Balance.Text = string.Format(CultureInfo.InvariantCulture, "{0:0.00#####} {1}", bal.Balances[_selectedPair.Item2], currency);
             }
             else
             {
@@ -134,8 +134,8 @@ namespace CoinTNet.UI.Controls
         {
             string currency = _selectedPair.Item2;
 
-            lblLowestAsk.Text = string.Format(CultureInfo.InvariantCulture, "{0:0.00###} {1}", ticker.Ask, currency);
-            lblHighestBid.Text = string.Format(CultureInfo.InvariantCulture, "{0:0.00###} {1}", ticker.Bid, currency);
+            lblLowestAsk.Text = string.Format(CultureInfo.InvariantCulture, "{0:0.00#####} {1}", ticker.Ask, currency);
+            lblHighestBid.Text = string.Format(CultureInfo.InvariantCulture, "{0:0.00#####} {1}", ticker.Bid, currency);
 
             if (string.IsNullOrEmpty(txtBuyPrice.Text))
             {
@@ -183,7 +183,7 @@ namespace CoinTNet.UI.Controls
 
                 if (!_selectedPair.Exchange.FeeDeductedFromTotal)
                 {
-                    amount = 100 * balance / ((100 + _fee) * buyPrice);
+                    amount = 100 * balance / ((100 + _fee.BuyFee) * buyPrice);
                 }
 
                 txtBuyAmount.Text = string.Format(CultureInfo.InvariantCulture, "{0:0.00######}", amount);
@@ -221,10 +221,10 @@ namespace CoinTNet.UI.Controls
             if (decimal.TryParse(txtBuyAmount.Text, NumberStyles.Currency, CultureInfo.InvariantCulture, out amount) && decimal.TryParse(txtBuyPrice.Text, NumberStyles.Currency, CultureInfo.InvariantCulture, out price))
             {
                 decimal total = amount * price;
-                decimal totalFee = total * _fee / 100m;
+                decimal totalFee = total * _fee.BuyFee / 100m;
                 bool feeDeductedFromTotal = _selectedPair.Exchange.FeeDeductedFromTotal;
-                lblBuyFee.Text = string.Format(CultureInfo.InvariantCulture, "{0:0.####} {1}", totalFee, _proxy.GetFeeUnit(_selectedPair, OrderType.Buy));
-                lblBuyTotal.Text = string.Format(CultureInfo.InvariantCulture, "{0:0.####} {1}", feeDeductedFromTotal ? total : total + totalFee, _selectedPair.Item2);
+                lblBuyFee.Text = string.Format(CultureInfo.InvariantCulture, "{0:0.######} {1}", totalFee, _proxy.GetFeeUnit(_selectedPair, OrderType.Buy));
+                lblBuyTotal.Text = string.Format(CultureInfo.InvariantCulture, "{0:0.######} {1}", feeDeductedFromTotal ? total : total + totalFee, _selectedPair.Item2);
             }
         }
 
@@ -240,10 +240,10 @@ namespace CoinTNet.UI.Controls
             if (decimal.TryParse(txtSellAmount.Text, NumberStyles.Currency, CultureInfo.InvariantCulture, out amount) && decimal.TryParse(txtSellPrice.Text, NumberStyles.Currency, CultureInfo.InvariantCulture, out price))
             {
                 decimal total = decimal.Parse(txtSellAmount.Text, CultureInfo.InvariantCulture) * decimal.Parse(txtSellPrice.Text, CultureInfo.InvariantCulture);
-                decimal totalFee = total * _fee / 100m;
+                decimal totalFee = total * _fee.SellFee / 100m;
                 bool feeDeductedFromTotal = _selectedPair.Exchange.FeeDeductedFromTotal;
-                lblSellFee.Text = string.Format(CultureInfo.InvariantCulture, "{0:0.####} {1}", totalFee, _proxy.GetFeeUnit(_selectedPair, OrderType.Sell));
-                lblSellTotal.Text = string.Format(CultureInfo.InvariantCulture, "{0:0.####} {1} ", feeDeductedFromTotal ? total : total - totalFee, _selectedPair.Item2);
+                lblSellFee.Text = string.Format(CultureInfo.InvariantCulture, "{0:0.######} {1}", totalFee, _proxy.GetFeeUnit(_selectedPair, OrderType.Sell));
+                lblSellTotal.Text = string.Format(CultureInfo.InvariantCulture, "{0:0.######} {1} ", feeDeductedFromTotal ? total : total - totalFee, _selectedPair.Item2);
             }
         }
 

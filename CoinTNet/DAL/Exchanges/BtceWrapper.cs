@@ -70,10 +70,7 @@ namespace CoinTNet.DAL.Exchanges
 
             userInfo =>
             {
-                var bal = new Balance
-                {
-                    Fee = BtceApi.GetFee(BtcePair.btc_usd),
-                };
+                var bal = new Balance();
                 foreach (var kvp in userInfo.Funds.Balances)
                 {
                     bal.Balances[kvp.Key] = kvp.Value;
@@ -215,9 +212,14 @@ namespace CoinTNet.DAL.Exchanges
         /// </summary>
         /// <param name="pair">The currency pair</param>
         /// <returns>The fee</returns>
-        public CallResult<decimal> GetFee(CurrencyPair pair)
+        public CallResult<Fee> GetFee(CurrencyPair pair)
         {
-            return CallProxy(() => BtceApi.GetFee(pair.ToBtcePair()), f => f);
+            return CallProxy(() => BtceApi.GetFee(pair.ToBtcePair()), f =>
+                new Fee
+            {
+                BuyFee = f,
+                SellFee = f
+            });
         }
 
         /// <summary>

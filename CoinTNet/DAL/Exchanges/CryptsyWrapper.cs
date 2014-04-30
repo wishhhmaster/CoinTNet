@@ -80,7 +80,6 @@ namespace CoinTNet.DAL.Exchanges
                 var bal = new Balance();
                 bal.Balances[pair.Item1] = b.BalancesAvailable[pair.Item1];
                 bal.Balances[pair.Item2] = b.BalancesAvailable[pair.Item2];
-                bal.Fee = 0.3m;
                 return bal;
             });
         }
@@ -206,10 +205,13 @@ namespace CoinTNet.DAL.Exchanges
         /// </summary>
         /// <param name="pair">The currency pair</param>
         /// <returns>The fee</returns>
-        public CallResult<decimal> GetFee(CurrencyPair pair)
+        public CallResult<Fee> GetFee(CurrencyPair pair)
         {
-            return new CallResult<decimal>(3);
-            //return CallProxy(() => 3m, f => f);
+            return new CallResult<Fee>(new Fee
+            {
+                BuyFee = 0.2m,
+                SellFee = 0.3m
+            });
         }
 
         /// <summary>

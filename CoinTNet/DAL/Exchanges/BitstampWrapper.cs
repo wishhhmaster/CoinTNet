@@ -74,7 +74,6 @@ namespace CoinTNet.DAL.Exchanges
                 var bal = new Balance();
                 bal.Balances[pair.Item1] = b.AvailableBTC;
                 bal.Balances[pair.Item2] = b.AvailableUSD;
-                bal.Fee = b.Fee;
                 return bal;
             });
         }
@@ -198,14 +197,19 @@ namespace CoinTNet.DAL.Exchanges
         {
             return CallProxy(() => _proxy.CancelOrder(orderId), b => b);
         }
+
         /// <summary>
         /// Gets the fee associated to a currency pair
         /// </summary>
         /// <param name="pair">The currency pair</param>
         /// <returns>The fee</returns>
-        public CallResult<decimal> GetFee(CurrencyPair pair)
+        public CallResult<Fee> GetFee(CurrencyPair pair)
         {
-            return CallProxy(() => _proxy.GetFee(), f => f);
+            return CallProxy(() => _proxy.GetFee(), f => new Fee
+            {
+                BuyFee = f,
+                SellFee = f
+            });
         }
 
         /// <summary>
