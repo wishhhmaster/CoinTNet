@@ -52,6 +52,9 @@ namespace CoinTNet.BLL
             }
             var newLast = candles.LastOrDefault();
             DateTime minTime = newLast != null ? newLast.Date.AddSeconds(1) : fromDateTime;
+
+            //Then we try to get more candles from websites providing historic data
+
             if (minTime.AddHours(1) < toDateTime)//If older than 1 H, we need to get data from bitcoincharts/bitcoinwisdom
             {
                 if (pair.Item1 == CurrencyCodes.BTC && !string.IsNullOrEmpty(pair.Exchange.BitcoinChartsCode))
@@ -137,10 +140,11 @@ namespace CoinTNet.BLL
         /// <summary>
         /// Updates a list of candles with the most recent data from a given exchange (Called when ticker refreshes)
         /// </summary>
+        /// <param name="from">The from date</param>
         /// <param name="candlesDurationInMin">The period' duration in minutes</param>
         /// <param name="existingCandles">A list of existing candles</param>
         /// <returns>True if the update was successful</returns>
-        public static bool UpdateCandlesWithLiveData(int candlesDurationInMin, IList<OHLC> existingCandles, CurrencyPair pair)
+        public static bool UpdateCandlesWithLiveData(DateTime from, int candlesDurationInMin, IList<OHLC> existingCandles, CurrencyPair pair)
         {
             try
             {
@@ -156,6 +160,7 @@ namespace CoinTNet.BLL
                 var transactions = transactionsRes.Result.Transactions;
                 transactions.Reverse();//Make sure they are in ASC order
 
+                transactions = transactions.Where(t => t.Date >= from).ToList();
                 // Create trade list (required to calculate OHLC)
                 IList<BitcoinCharts.Models.Trade> list = (from trade in transactions
                                                           select new BitcoinCharts.Models.Trade()
