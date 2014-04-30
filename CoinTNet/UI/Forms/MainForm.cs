@@ -125,7 +125,8 @@ namespace CoinTNet.UI.Forms
                 if (DateTime.UtcNow.Subtract(_lastUpdate).TotalSeconds >= 5)
                 {
                     int period = dataSelector.SelectedPeriodInMin;
-                    var updateTask = Task.Factory.StartNew(() => { UpdateCandles(period, _selectedPair); });
+                    var fromDate = dataSelector.FromDate;
+                    var updateTask = Task.Factory.StartNew(() => { UpdateCandles(fromDate, period, _selectedPair); });
                     _updateCandlesTask = updateTask.ContinueWith(_ =>
                     {
                         if (_candles.Count > 0)
@@ -153,7 +154,7 @@ namespace CoinTNet.UI.Forms
         /// </summary>
         /// <param name="fetchLiveData"></param>
         /// <param name="candlesDurationInMin"></param>
-        private void UpdateCandles(int candlesDurationInMin, CurrencyPair pair)
+        private void UpdateCandles(DateTime fromDate, int candlesDurationInMin, CurrencyPair pair)
         {
             lock (this)
             {
@@ -162,7 +163,7 @@ namespace CoinTNet.UI.Forms
                 if (_candles.Count > 0)
                 {
                     UpdateStatus("Fetching new data");
-                    CandlesProvider.UpdateCandlesWithLiveData(candlesDurationInMin, _candles, pair);
+                    CandlesProvider.UpdateCandlesWithLiveData(fromDate, candlesDurationInMin, _candles, pair);
                 }
 
 
@@ -284,7 +285,7 @@ namespace CoinTNet.UI.Forms
 
         private void btnOptions_Click(object sender, EventArgs e)
         {
-            using(var of = new OptionsForm())
+            using (var of = new OptionsForm())
             {
                 of.ShowDialog();
             }
