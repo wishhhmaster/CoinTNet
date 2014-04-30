@@ -83,7 +83,7 @@ namespace CoinTNet.DAL
 
             var postBody = "grant_type=client_credentials";
 
-            ServicePointManager.Expect100Continue = false;
+            //ServicePointManager.Expect100Continue = false; //in app.config
             HttpWebRequest request = (HttpWebRequest)WebRequest.Create(oauth_url);
             request.Headers.Add("Authorization", authHeader);
             request.Method = "POST";
@@ -119,7 +119,7 @@ namespace CoinTNet.DAL
             timeLineURL = string.Format(timeLineURL, userName, maxNbTweets);
             var authHeader = string.Format("Bearer {0}", AccessToken);
 
-            ServicePointManager.Expect100Continue = false;
+            //ServicePointManager.Expect100Continue = false; //in app.config
             HttpWebRequest request = (HttpWebRequest)WebRequest.Create(timeLineURL);
             request.Headers.Add("Authorization", authHeader);
             request.Method = "GET";
