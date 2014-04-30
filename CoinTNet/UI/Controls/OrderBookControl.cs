@@ -77,7 +77,7 @@ namespace CoinTNet.UI.Controls
         /// <returns>A list of asks and a list of bids</returns>
         private List<SimpleOrderInfo>[] FetchOrders()
         {
-            var ordersRes =ExchangeProxyFactory.GetProxy(_selectedPair.Exchange.InternalCode).GetOrderBook(_selectedPair);
+            var ordersRes = ExchangeProxyFactory.GetProxy(_selectedPair.Exchange.InternalCode).GetOrderBook(_selectedPair);
             if (!ordersRes.Success)
             {
                 return new List<SimpleOrderInfo>[0];
@@ -86,8 +86,8 @@ namespace CoinTNet.UI.Controls
 
             decimal depthRange = numPriceRange.Value;
 
-            var minPriceAsk = orders.Asks.Min(o => o.Price);
-            var maxPriceBid = orders.Bids.Max(o => o.Price);
+            var minPriceAsk = orders.Asks.Count > 0 ? orders.Asks.Min(o => o.Price) : 0;
+            var maxPriceBid = orders.Bids.Count > 0 ? orders.Bids.Max(o => o.Price) : 0;
 
             //We don't want to display all the orders, so we stick to a percentage
             var displayableAsks = orders.Asks.Where(a => Math.Abs(100 * (a.Price - minPriceAsk) / minPriceAsk) < depthRange).ToList();

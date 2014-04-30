@@ -23,17 +23,24 @@ namespace CryptsyAPI
             r.Asks = new List<SimpleOrderInfo>();
             r.Bids = new List<SimpleOrderInfo>();
 
-            foreach (var item in o["sellorders"] as JArray)
+            var sellOrders = o["sellOrders"] as JArray;
+            if (sellOrders != null)
             {
-                var order = SimpleOrderInfo.CreateFromJObject(item as JObject, isPublic? "price" : "sellprice");
-                r.Asks.Add(order);
+                foreach (var item in sellOrders as JArray)
+                {
+                    var order = SimpleOrderInfo.CreateFromJObject(item as JObject, isPublic ? "price" : "sellprice");
+                    r.Asks.Add(order);
+                }
             }
-            foreach (var item in o["buyorders"] as JArray)
+            var buyOrders = o["buyorders"] as JArray;
+            if (buyOrders != null)
             {
-                var order = SimpleOrderInfo.CreateFromJObject(item as JObject, isPublic ? "price" : "buyprice");
-                r.Bids.Add(order);
+                foreach (var item in buyOrders)
+                {
+                    var order = SimpleOrderInfo.CreateFromJObject(item as JObject, isPublic ? "price" : "buyprice");
+                    r.Bids.Add(order);
+                }
             }
-
             return r;
         }
 
