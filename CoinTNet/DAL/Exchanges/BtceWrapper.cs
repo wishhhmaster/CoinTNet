@@ -28,7 +28,7 @@ namespace CoinTNet.DAL.Exchanges
         public BtceWrapper()
         {
             var p = SecureStorage.GetEncryptedData<BtceAPIParams>(SecuredDataKeys.BtceAPI);
-            _proxy = new BtceApi(p.APIKey, p.APISecret);
+            _proxy = new BtceApi(p.APIKey, string.IsNullOrEmpty(p.APISecret) ? string.Empty : p.APISecret);
         }
 
         /// <summary>
