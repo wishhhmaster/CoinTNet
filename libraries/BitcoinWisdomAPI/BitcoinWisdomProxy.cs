@@ -7,18 +7,45 @@ using System.Net;
 
 namespace BitcoinWisdomAPI
 {
+    /// <summary>
+    /// Proxy to access bitcoin wisdom
+    /// </summary>
     public class BitcoinWisdomProxy
     {
+        #region Private members
+
+        /// <summary>
+        /// Bitcoinwisdom base url (for retrieving candles)
+        /// </summary>
         private string _baseURL;
+
+        #endregion
+
+        /// <summary>
+        /// Initialises a new instance of the class
+        /// </summary>
+        /// <param name="baseUrl">The base url for retrieving data</param>
         public BitcoinWisdomProxy(string baseUrl = "")
         {
             _baseURL = string.IsNullOrEmpty(baseUrl) ? "https://s2.bitcoinwisdom.com" : baseUrl;
-            //https://s2.bitcoinwisdom.com
         }
+        /// <summary>
+        /// Retrieves a list of candles
+        /// </summary>
+        /// <param name="from"></param>
+        /// <param name="periodInMin"></param>
+        /// <param name="market"></param>
+        /// <param name="item1"></param>
+        /// <param name="item2"></param>
+        /// <returns></returns>
         public IList<Candle> GetCandles(DateTimeOffset from, int periodInMin, string market, string item1, string item2)
         {
             string command = string.Format("/period?step={0}&symbol={1}{2}{3}&nonce={4}", periodInMin * 60, market.ToLower(), item1.ToLower(), item2.ToLower(), DateTime.Now.Ticks);
             var resultStr = SendGETRequest(command);
+            if (string.IsNullOrEmpty(resultStr))
+            {
+                return new List<Candle>();
+            }
             var array = JArray.Parse(resultStr);
 
             List<Candle> candles = new List<Candle>();
@@ -28,7 +55,7 @@ namespace BitcoinWisdomAPI
                 var candle = new Candle
                 {
                     DateTime = UnixTime.ConvertToDateTime(timeStamp),
-                    TimeStamp=timeStamp,
+                    TimeStamp = timeStamp,
                     Close = c.Value<decimal>(4),
                     Open = c.Value<decimal>(3),
                     High = c.Value<decimal>(5),
@@ -49,8 +76,6 @@ namespace BitcoinWisdomAPI
         private string SendGETRequest(string command)
         {
             command = _baseURL + command;
-            //var request = WebRequest.Create(new Uri(command));
-
             HttpWebRequest req = HttpWebRequest.Create(command) as HttpWebRequest;
             req.Method = "GET";
             req.Headers.Add("Accept-Encoding", "gzip,deflate");
@@ -69,6 +94,9 @@ namespace BitcoinWisdomAPI
 
     }
 
+    /// <summary>
+    /// Represents a candle
+    /// </summary>
     public class Candle
     {
         public DateTimeOffset DateTime { get; set; }
