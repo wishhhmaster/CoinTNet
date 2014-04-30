@@ -74,6 +74,11 @@ namespace CoinTNet.DAL.Interfaces
         /// <param name="type">The type of order (buy/sell)</param>
         /// <returns></returns>
         string GetFeeUnit(CurrencyPair pair, OrderType type);
+        /// <summary>
+        /// Returns the list of currency pairs available on the exchange
+        /// </summary>
+        /// <returns>A list of currency pairs</returns>
+        CallResult<CurrencyPair[]> GetCurrencyPairs();
 
     }
 }

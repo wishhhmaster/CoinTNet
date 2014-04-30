@@ -15,12 +15,10 @@ namespace CoinTNet.DO
         /// <param name="internalCode">The internal code representing the exchange</param>
         /// <param name="btcChartsCode">The exchange's code on Bitcoincharts</param>
         /// <param name="btcWisdomCode">The exchange's code on BitcoinWisdom</param>
-        public Exchange(string name, CurrencyPair[] pairs, string internalCode, string btcChartsCode = null, string btcWisdomCode = null)
+        public Exchange(string name, string internalCode, string btcChartsCode = null, string btcWisdomCode = null)
         {
             Name = name;
-            CurrencyPairs = pairs;
             InternalCode = internalCode;
-            CurrencyPairs.ToList().ForEach(cp => cp.Exchange = this);
             BitcoinChartsCode = string.IsNullOrEmpty(btcChartsCode) ? internalCode : btcChartsCode;
             BitcoinWisdomCode = string.IsNullOrEmpty(btcWisdomCode) ? internalCode : btcWisdomCode;
         }
@@ -48,6 +46,12 @@ namespace CoinTNet.DO
         /// Gets or sets a value indicating if the fee is deducted from in the total
         /// </summary>
         public bool FeeDeductedFromTotal { get; set; }
+
+        public void AssignPairs(CurrencyPair[] pairs)
+        {
+            CurrencyPairs = pairs;
+            CurrencyPairs.ToList().ForEach(cp => cp.Exchange = this);
+        }
     }
 
     /// <summary>

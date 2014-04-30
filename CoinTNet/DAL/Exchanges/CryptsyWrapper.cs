@@ -224,6 +224,21 @@ namespace CoinTNet.DAL.Exchanges
         {
             return pair.Item2;
         }
+
+        /// <summary>
+        /// Returns the list of currency pairs available on the exchange
+        /// </summary>
+        /// <returns>A list of currency pairs</returns>
+        public CallResult<CurrencyPair[]> GetCurrencyPairs()
+        {
+            return CallProxy(() => _proxy.GetAllCurrencyPairs(), list =>
+                {
+                    return list.Select(p => new CurrencyPair
+                        (p.Item1, p.Item2, p.ID)).ToArray();
+                });
+
+        }
+
         /// <summary>
         /// Calls the proxy and converts the result
         /// </summary>

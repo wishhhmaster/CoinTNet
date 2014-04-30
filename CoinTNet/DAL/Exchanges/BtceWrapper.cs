@@ -234,6 +234,25 @@ namespace CoinTNet.DAL.Exchanges
         }
 
         /// <summary>
+        /// Returns the list of currency pairs available on the exchange
+        /// </summary>
+        /// <returns>A list of currency pairs</returns>
+        public CallResult<CurrencyPair[]> GetCurrencyPairs()
+        {
+            var pairs = new[]{
+                            new CurrencyPair ("BTC", "USD" ),
+                            new CurrencyPair ("BTC", "EUR" ),
+                            new CurrencyPair ("LTC", "USD" ),
+                            new CurrencyPair ("LTC", "BTC" ),
+                            new CurrencyPair ("NMC", "USD" ),
+                            new CurrencyPair ("NMC", "BTC" ),
+                            new CurrencyPair ("PPC", "USD" ),
+                            new CurrencyPair ("PPC", "BTC" )
+             };
+            return new CallResult<CurrencyPair[]>(pairs);
+        }
+
+        /// <summary>
         /// Makes a proxy call and converts the result
         /// </summary>
         /// <typeparam name="T"></typeparam>

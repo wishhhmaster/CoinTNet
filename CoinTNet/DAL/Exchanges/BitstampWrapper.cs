@@ -213,6 +213,16 @@ namespace CoinTNet.DAL.Exchanges
         }
 
         /// <summary>
+        /// Returns the list of currency pairs available on the exchange
+        /// </summary>
+        /// <returns>A list of currency pairs</returns>
+        public CallResult<CurrencyPair[]> GetCurrencyPairs()
+        {
+            var p = new []{new CurrencyPair("BTC", "USD")};
+            return new CallResult<CurrencyPair[]>(p);
+        }
+
+        /// <summary>
         /// Gets the unit for the fee for a given pair
         /// </summary>
         /// <param name="pair">The currency pair</param>

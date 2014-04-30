@@ -7,6 +7,7 @@ using CoinTNet.UI.Forms;
 using System;
 using System.Linq;
 using System.Windows.Forms;
+using CoinTNet.DAL;
 
 namespace CoinTNet.UI.Controls
 {
@@ -135,33 +136,13 @@ namespace CoinTNet.UI.Controls
         /// </summary>
         private void InitExchanges()
         {
-
-            CurrencyPair[] bitstampCP = new[] { new CurrencyPair("BTC", "USD") };
-            var bitstampEx = new Exchange("Bitstamp", bitstampCP, ExchangesInternalCodes.Bitstamp);
+            var bitstampEx = new Exchange("Bitstamp", ExchangesInternalCodes.Bitstamp);
             bitstampEx.FeeDeductedFromTotal = false;
 
-            var btceEx = new Exchange("BTC-e", new[]{
-                            new CurrencyPair ("BTC", "USD" ),
-                            new CurrencyPair ("BTC", "EUR" ),
-                            new CurrencyPair ("LTC", "USD" ),
-                            new CurrencyPair ("LTC", "BTC" ),
-                            new CurrencyPair ("NMC", "USD" ),
-                            new CurrencyPair ("NMC", "BTC" ),
-                            new CurrencyPair ("PPC", "USD" ),
-                            new CurrencyPair ("PPC", "BTC" )
-            }, ExchangesInternalCodes.Btce);
+            var btceEx = new Exchange("BTC-e", ExchangesInternalCodes.Btce);
             btceEx.FeeDeductedFromTotal = true;
 
-
-            CurrencyPair[] cryptsyPairs = new[]
-                {
-                    new CurrencyPair ("LTC", "BTC","3" ),
-                    new CurrencyPair ("DOGE", "BTC","132" ),
-                    new CurrencyPair ("NMC", "BTC","29" ),
-
-                    new CurrencyPair ("DOGE", "LTC","135" ),
-                };
-            var cryptsyEx = new Exchange("Cryptsy", cryptsyPairs, ExchangesInternalCodes.Cryptsy);
+            var cryptsyEx = new Exchange("Cryptsy", ExchangesInternalCodes.Cryptsy);
 
             var allExchanges = new[] { bitstampEx, btceEx, cryptsyEx };
             cbbExchange.PopulateCbbFromList(allExchanges, e => e.Name, bitstampEx);
@@ -189,6 +170,11 @@ namespace CoinTNet.UI.Controls
         {
             var ex = cbbExchange.GetSelectedValue<Exchange>();
             _loadingPairs = true;
+            if (ex.CurrencyPairs == null || ex.CurrencyPairs.Length == 0)
+            {
+                var pairsRes = ExchangeProxyFactory.GetProxy(ex.InternalCode).GetCurrencyPairs();
+                ex.AssignPairs(pairsRes.Result);
+            }
             cbbPairs.PopulateCbbFromList(ex.CurrencyPairs, cp => cp.Description, ex.CurrencyPairs.FirstOrDefault());
             _loadingPairs = false;
             EventAggregator.Instance.Publish(new ExchangeSelected { InternalCode = ex.InternalCode, SelectorType = this.SelectorType });
