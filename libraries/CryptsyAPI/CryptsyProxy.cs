@@ -101,6 +101,27 @@ namespace CryptsyAPI
             return MakeGetRequest<OrderBook>("?method=singleorderdata&marketid=" + currencyPair.ID, result => OrderBook.CreateFromJObject(result[currencyPair.Item1] as JObject, true));
         }
 
+        public CallResult<CurrencyPair[]> GetAllCurrencyPairs()
+        {
+            return MakeGetRequest<CurrencyPair[]>("?method=marketdatav2", result =>
+                {
+                    List<CurrencyPair> pairs = new List<CurrencyPair>();
+                    
+                    foreach (var ma in result["markets"])
+                    {
+                        var m = ma.First;
+                        var c = new CurrencyPair
+                        {
+                            ID = m.Value<string>("marketid"),
+                            Item1 = m.Value<string>("primarycode"),
+                            Item2 = m.Value<string>("secondarycode"),
+                        };
+                        pairs.Add(c);
+                    }
+                    return pairs.ToArray();
+                });
+        }
+
         /// <summary>
         /// Gets the order book for a given currency pair
         /// </summary>
