@@ -81,8 +81,6 @@ namespace CoinTNet.BLL
                     existingCandle.High = newCandle.High > existingCandle.High ? newCandle.High : existingCandle.High;
                     existingCandle.Low = newCandle.Low < existingCandle.Low ? newCandle.Low : existingCandle.Low;
                     existingCandle.Close = newCandle.Close;
-                    existingCandle.TradeSource = TradeSource.Bitstamp;
-                    //recentCandles = recentCandles.Skip(1).ToList();
                 }
                 else
                 {
@@ -353,8 +351,7 @@ namespace CoinTNet.BLL
                                                               Symbol = pair.Item2
                                                           }).ToList();
                 // Calculate trades
-                IList<OHLC> candles = CandlesProvider.CalculateOHLCFromTrades(list, candlesDurationInMin, TradeSource.Bitstamp);
-
+                IList<OHLC> candles = CandlesProvider.CalculateOHLCFromTrades(list, candlesDurationInMin, TradeSource.Bitstamp).Where(c => c.Date >= from).ToList();
                 return candles;
             }
             catch (Exception ex)
