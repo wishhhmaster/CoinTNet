@@ -143,6 +143,7 @@ namespace CoinTNet.UI.Controls
             btceEx.FeeDeductedFromTotal = true;
 
             var cryptsyEx = new Exchange("Cryptsy", ExchangesInternalCodes.Cryptsy);
+            cryptsyEx.BitcoinChartsCode = string.Empty;
 
             var allExchanges = new[] { bitstampEx, btceEx, cryptsyEx };
             cbbExchange.PopulateCbbFromList(allExchanges, e => e.Name, bitstampEx);

@@ -54,7 +54,7 @@ namespace CoinTNet.BLL
             DateTime minTime = newLast != null ? newLast.Date.AddSeconds(1) : fromDateTime;
             if (minTime.AddHours(1) < toDateTime)//If older than 1 H, we need to get data from bitcoincharts/bitcoinwisdom
             {
-                if (pair.Item1 == CurrencyCodes.BTC)
+                if (pair.Item1 == CurrencyCodes.BTC && !string.IsNullOrEmpty(pair.Exchange.BitcoinChartsCode))
                 {
                     var newestCandles = GetCandlesFromBitcoincharts(minTime, candleDurationsInMinutes, pair.Exchange.BitcoinChartsCode, pair.Item2);
                     candles = candles.Union(newestCandles).ToList();
