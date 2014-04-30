@@ -434,7 +434,7 @@ namespace CoinTNet.UI.Controls
                 nbDecimals = 0;
                 var k = range;
                 double cursorInterval = 0.1;
-                while (k < 10 && nbDecimals < 4)
+                while (k < 10 && nbDecimals < 6)
                 {
                     nbDecimals++;
                     k = k * 10;
