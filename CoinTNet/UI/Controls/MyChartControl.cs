@@ -187,7 +187,7 @@ namespace CoinTNet.UI.Controls
                     //Find out how many decimals we want to display
                     int nbDecimals = 2;
                     var k = valY;
-                    while (k < 10 && nbDecimals < 6)
+                    while (k < 10 && nbDecimals < 8)
                     {
                         nbDecimals++;
                         k = k * 10;
@@ -414,35 +414,27 @@ namespace CoinTNet.UI.Controls
 
                 //Sets axes min/max
 
-                double range = (double)(maxPrice - minPrice);
+                decimal range = maxPrice - minPrice;
+                if (range == 0m)
+                {
+                    range = 0.0000001m;
+                }
                 int extra = 5;
-                int nbDecimals = 3;
-                if (range > 2)
-                {
-                    nbDecimals = 0;
-                }
-                else if (range > 0.5)
-                {
-                    nbDecimals = 1;
-                }
-                else if (range > 0.2)
-                {
-                    nbDecimals = 2;
-                }
 
                 //Find out how many decimals we want to display
-                nbDecimals = 0;
+                int nbDecimals = 0;
                 var k = range;
                 double cursorInterval = 0.1;
-                while (k < 10 && nbDecimals < 6)
+                while (k < 10 && nbDecimals < 8)
                 {
                     nbDecimals++;
                     k = k * 10;
                     cursorInterval /= 10;
                 }
 
-                yAxis.Maximum = (double)maxPrice + range * extra / 100;
-                yAxis.Minimum = (double)minPrice - range * extra / 100;
+                yAxis.Maximum = (double)(maxPrice + range * extra / 100);
+                yAxis.Minimum = (double)(minPrice - range * extra / 100);
+
                 yAxis.LabelStyle.Format = nbDecimals > 0 ? ("{0:0." + new string('#', nbDecimals) + "}") : "{0}";
 
                 _mainChartArea.CursorY.Interval = cursorInterval;
