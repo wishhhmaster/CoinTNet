@@ -23,7 +23,7 @@ namespace CryptsyAPI
             r.Asks = new List<SimpleOrderInfo>();
             r.Bids = new List<SimpleOrderInfo>();
 
-            var sellOrders = o["sellOrders"] as JArray;
+            var sellOrders = o["sellorders"] as JArray;
             if (sellOrders != null)
             {
                 foreach (var item in sellOrders as JArray)
