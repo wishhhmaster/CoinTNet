@@ -13,6 +13,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BitstampAPI", "libraries\Bi
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BitcoinWisdomAPI", "libraries\BitcoinWisdomAPI\BitcoinWisdomAPI.csproj", "{FF55A6D7-3D49-48D7-9E0C-441F8FD6BBF9}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CryptsyAPI", "libraries\CryptsyAPI\CryptsyAPI.csproj", "{03D872C9-959E-41B6-BFA1-37D30F5E2994}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug SubArray|Any CPU = Debug SubArray|Any CPU
@@ -157,6 +159,30 @@ Global
 		{FF55A6D7-3D49-48D7-9E0C-441F8FD6BBF9}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{FF55A6D7-3D49-48D7-9E0C-441F8FD6BBF9}.Release|Win32.ActiveCfg = Release|Any CPU
 		{FF55A6D7-3D49-48D7-9E0C-441F8FD6BBF9}.Release|X64.ActiveCfg = Release|Any CPU
+		{03D872C9-959E-41B6-BFA1-37D30F5E2994}.Debug SubArray|Any CPU.ActiveCfg = Debug|Any CPU
+		{03D872C9-959E-41B6-BFA1-37D30F5E2994}.Debug SubArray|Any CPU.Build.0 = Debug|Any CPU
+		{03D872C9-959E-41B6-BFA1-37D30F5E2994}.Debug SubArray|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{03D872C9-959E-41B6-BFA1-37D30F5E2994}.Debug SubArray|Mixed Platforms.Build.0 = Debug|Any CPU
+		{03D872C9-959E-41B6-BFA1-37D30F5E2994}.Debug SubArray|Win32.ActiveCfg = Debug|Any CPU
+		{03D872C9-959E-41B6-BFA1-37D30F5E2994}.Debug SubArray|X64.ActiveCfg = Debug|Any CPU
+		{03D872C9-959E-41B6-BFA1-37D30F5E2994}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{03D872C9-959E-41B6-BFA1-37D30F5E2994}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{03D872C9-959E-41B6-BFA1-37D30F5E2994}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{03D872C9-959E-41B6-BFA1-37D30F5E2994}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{03D872C9-959E-41B6-BFA1-37D30F5E2994}.Debug|Win32.ActiveCfg = Debug|Any CPU
+		{03D872C9-959E-41B6-BFA1-37D30F5E2994}.Debug|X64.ActiveCfg = Debug|Any CPU
+		{03D872C9-959E-41B6-BFA1-37D30F5E2994}.Release SubArray|Any CPU.ActiveCfg = Release|Any CPU
+		{03D872C9-959E-41B6-BFA1-37D30F5E2994}.Release SubArray|Any CPU.Build.0 = Release|Any CPU
+		{03D872C9-959E-41B6-BFA1-37D30F5E2994}.Release SubArray|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{03D872C9-959E-41B6-BFA1-37D30F5E2994}.Release SubArray|Mixed Platforms.Build.0 = Release|Any CPU
+		{03D872C9-959E-41B6-BFA1-37D30F5E2994}.Release SubArray|Win32.ActiveCfg = Release|Any CPU
+		{03D872C9-959E-41B6-BFA1-37D30F5E2994}.Release SubArray|X64.ActiveCfg = Release|Any CPU
+		{03D872C9-959E-41B6-BFA1-37D30F5E2994}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{03D872C9-959E-41B6-BFA1-37D30F5E2994}.Release|Any CPU.Build.0 = Release|Any CPU
+		{03D872C9-959E-41B6-BFA1-37D30F5E2994}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{03D872C9-959E-41B6-BFA1-37D30F5E2994}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{03D872C9-959E-41B6-BFA1-37D30F5E2994}.Release|Win32.ActiveCfg = Release|Any CPU
+		{03D872C9-959E-41B6-BFA1-37D30F5E2994}.Release|X64.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
