@@ -239,16 +239,11 @@ namespace CoinTNet.DAL.Exchanges
         /// <returns>A list of currency pairs</returns>
         public CallResult<CurrencyPair[]> GetCurrencyPairs()
         {
-            var pairs = new[]{
-                            new CurrencyPair ("BTC", "USD" ),
-                            new CurrencyPair ("BTC", "EUR" ),
-                            new CurrencyPair ("LTC", "USD" ),
-                            new CurrencyPair ("LTC", "BTC" ),
-                            new CurrencyPair ("NMC", "USD" ),
-                            new CurrencyPair ("NMC", "BTC" ),
-                            new CurrencyPair ("PPC", "USD" ),
-                            new CurrencyPair ("PPC", "BTC" )
-             };
+            var pairs = Enum.GetValues(typeof(BtcePair))
+                .Cast<BtcePair>().Where(p => p != BtcePair.Unknown)
+                .Select(p => new CurrencyPair(p.Item1().ToUpper(), p.Item2().ToUpper()))
+                .ToArray();
+            
             return new CallResult<CurrencyPair[]>(pairs);
         }
 
