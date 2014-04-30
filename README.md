@@ -6,7 +6,7 @@ CoinT.Net
 ### Introduction
 
 CoinT.Net is a basic trading application for bitcoins and other altcoins, which enables users to:
-- visualise ticker/candles from exchanges (Bitstamp and BTC-e for now), with basic indicators (MA, EMA)
+- visualise ticker/candles from exchanges (Bitstamp, BTC-e and Cryptsy for now), with basic indicators (MA, EMA)
 - send buy/sell orders to these exchanges for multiple currencies
 - visualise the order book
 - back test trading strategies (EMA crossing and MACD for now)
@@ -56,6 +56,7 @@ The API keys can be configured from the Options screen. They will be saved in an
 
 - Bitstamp's API parameters (needed if you want to send orders)
 - BTC-e API's parameters (needed if you want to send orders)
+- Cryptsy API's parameters (needed if you want to send orders)
 - Twitter's parameters (needed if you want to retrieve Tweets)
 
 ### Warning
