@@ -76,6 +76,7 @@
     <Compile Include="BLL\Attributes\StrategyAttribute.cs" />
     <Compile Include="BLL\AuthenticationService.cs" />
     <Compile Include="BLL\CandlesProvider.cs" />
+    <Compile Include="DAL\Exchanges\CryptsyWrapper.cs" />
     <Compile Include="DAL\TwitterProxyFactory.cs" />
     <Compile Include="DAL\SecureStorage.cs" />
     <Compile Include="BLL\TradingIndicators\ITradingIndicator.cs" />
@@ -113,6 +114,7 @@
     <Compile Include="DO\Exchanges\TransactionList.cs" />
     <Compile Include="DO\NewsItem.cs" />
     <Compile Include="DO\Ntree.cs" />
+    <Compile Include="DO\Security\CryptsyAPIParams.cs" />
     <Compile Include="DO\Security\TwitterAPIParams.cs" />
     <Compile Include="DO\Security\BtceAPIParams.cs" />
     <Compile Include="DO\Security\BitstampAPIParams.cs" />
@@ -122,6 +124,12 @@
     <Compile Include="UI\Common\EventAggregator\EventAggregator.cs" />
     <Compile Include="UI\Common\EventAggregator\Subscription.cs" />
     <Compile Include="UI\Common\Messages.cs" />
+    <Compile Include="UI\Controls\Options\CryptsyKeysControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UI\Controls\Options\CryptsyKeysControl.Designer.cs">
+      <DependentUpon>CryptsyKeysControl.cs</DependentUpon>
+    </Compile>
     <Compile Include="UI\Controls\Options\TwitterKeysControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -272,6 +280,9 @@
     </Compile>
     <Compile Include="UI\Interfaces\IOptionControl.cs" />
     <Compile Include="UI\Interfaces\IStrategySettingsControl.cs" />
+    <EmbeddedResource Include="UI\Controls\Options\CryptsyKeysControl.resx">
+      <DependentUpon>CryptsyKeysControl.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="UI\Controls\Options\TwitterKeysControl.resx">
       <DependentUpon>TwitterKeysControl.cs</DependentUpon>
     </EmbeddedResource>
@@ -365,6 +376,10 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\libraries\CryptsyAPI\CryptsyAPI.csproj">
+      <Project>{03d872c9-959e-41b6-bfa1-37d30f5e2994}</Project>
+      <Name>CryptsyAPI</Name>
+    </ProjectReference>
     <ProjectReference Include="..\libraries\BitcoinWisdomAPI\BitcoinWisdomAPI.csproj">
       <Project>{ff55a6d7-3d49-48d7-9e0c-441f8fd6bbf9}</Project>
       <Name>BitcoinWisdomAPI</Name>

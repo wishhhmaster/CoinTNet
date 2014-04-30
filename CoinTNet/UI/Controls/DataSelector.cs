@@ -151,7 +151,19 @@ namespace CoinTNet.UI.Controls
                             new CurrencyPair ("PPC", "BTC" )
             }, ExchangesInternalCodes.Btce);
             btceEx.FeeDeductedFromTotal = true;
-            var allExchanges = new[] { bitstampEx, btceEx };
+
+
+            CurrencyPair[] cryptsyPairs = new[]
+                {
+                    new CurrencyPair ("LTC", "BTC","3" ),
+                    new CurrencyPair ("DOGE", "BTC","132" ),
+                    new CurrencyPair ("NMC", "BTC","29" ),
+
+                    new CurrencyPair ("DOGE", "LTC","135" ),
+                };
+            var cryptsyEx = new Exchange("Cryptsy", cryptsyPairs, ExchangesInternalCodes.Cryptsy);
+
+            var allExchanges = new[] { bitstampEx, btceEx, cryptsyEx };
             cbbExchange.PopulateCbbFromList(allExchanges, e => e.Name, bitstampEx);
         }
 

@@ -16,5 +16,6 @@ namespace CoinTNet.Common.Constants
         public const string BitstampAPI = "bitstampAPI";
         public const string BtceAPI = "btceAPI";
         public const string TwitterAPI = "twitterAPI";
+        public const string CryptsyAPI = "cryptsyAPI";
     }
 }

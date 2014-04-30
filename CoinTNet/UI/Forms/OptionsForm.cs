@@ -11,6 +11,9 @@ using System.Windows.Forms;
 
 namespace CoinTNet.UI.Forms
 {
+    /// <summary>
+    /// Enables the user to specify options
+    /// </summary>
     partial class OptionsForm : Form
     {
         private Dictionary<Type, Control> _types;
@@ -27,9 +30,10 @@ namespace CoinTNet.UI.Forms
         {
             var tnBitstamp = new TreeNode("Bitstamp") { Tag = typeof(BitstampKeysControl) };
             var tnBtce = new TreeNode("BTC-e") { Tag = typeof(BtceKeysControl) };
+            var tnCryptsy = new TreeNode("Cryptsy") { Tag = typeof(CryptsyKeysControl) };
             var twitterKeys = new TreeNode("Twitter") { Tag = typeof(TwitterKeysControl) };
-            var tnKeys = new TreeNode("Keys", new[] { tnBitstamp, tnBtce,twitterKeys });
-            
+            var tnKeys = new TreeNode("Keys", new[] { tnBitstamp, tnBtce, tnCryptsy, twitterKeys });
+
 
             tvSections.Nodes.Add(tnKeys);
             tvSections.ExpandAll();
@@ -59,7 +63,7 @@ namespace CoinTNet.UI.Forms
         {
             if (this.DialogResult == System.Windows.Forms.DialogResult.OK)
             {
-                foreach(var kvp in _types)
+                foreach (var kvp in _types)
                 {
                     (kvp.Value as Interfaces.IOptionControl).Save();
                 }

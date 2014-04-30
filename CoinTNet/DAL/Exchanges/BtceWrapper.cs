@@ -272,5 +272,21 @@ namespace CoinTNet.DAL.Exchanges
         {
             return BtcePairHelper.FromString(string.Format("{0}_{1}", pair.Item1, pair.Item2));
         }
+
+        /// <summary>
+        /// Converts a CurrenyPair instance to a BtcePair
+        /// </summary>
+        /// <param name="pair"></param>
+        /// <returns></returns>
+        public static CryptsyAPI.CurrencyPair ToCryptsyPair(this CurrencyPair pair)
+        {
+            return new CryptsyAPI.CurrencyPair
+            {
+                ID = pair.ID,
+                Item1 = pair.Item1,
+                Item2 = pair.Item2
+            };
+
+        }
     }
 }

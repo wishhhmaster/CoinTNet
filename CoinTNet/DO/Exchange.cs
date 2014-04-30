@@ -56,7 +56,7 @@ namespace CoinTNet.DO
     class CurrencyPair
     {
         /// <summary>
-        /// GEts or sets a reference to the exchange for this instance of the currency pair
+        /// Gets or sets a reference to the exchange for this instance of the currency pair
         /// </summary>
         public Exchange Exchange { get; set; }
 
@@ -65,10 +65,11 @@ namespace CoinTNet.DO
         /// </summary>
         /// <param name="item1"></param>
         /// <param name="item2"></param>
-        public CurrencyPair(string item1, string item2)
+        public CurrencyPair(string item1, string item2, string ID = "")
         {
             Item1 = item1;
             Item2 = item2;
+            this.ID = ID;
         }
 
         /// <summary>
@@ -79,6 +80,10 @@ namespace CoinTNet.DO
         /// Gets the 2nd item of the pair
         /// </summary>
         public string Item2 { get; private set; }
+        /// <summary>
+        /// Gets or sets an identifier for the currency pair
+        /// </summary>
+        public string ID { get; set; }
         /// <summary>
         /// Gets a description of the pair: <Item1>/<Item2>
         /// </summary>
