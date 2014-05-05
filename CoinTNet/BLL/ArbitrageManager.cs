@@ -322,10 +322,10 @@ namespace CoinTNet.BLL
         {
             get
             {
-                return IsBuyOrder ? string.Format("Buying {0:0.00###} {1:0.00###} @ {2:0.00###} ==> {0:0.00###} {1:0.00###}",
+                return IsBuyOrder ? string.Format("Buying {0:0.00######} {1:0.00###} @ {2:0.00######} ==> {0:0.00###} {1:0.00###}",
                     UnitsCurrency2, Currency2, Rate) :
 
-                    string.Format("Selling {0:0.00###} {1:0.00###} @ {4:0.00###} ==> {2:0.00###} {3:0.00###} ",
+                    string.Format("Selling {0:0.00######} {1:0.00###} @ {4:0.00######} ==> {2:0.00###} {3:0.00###} ",
                             UnitsCurrency1, Currency1, UnitsCurrency2, Currency2, Rate);
 
             }

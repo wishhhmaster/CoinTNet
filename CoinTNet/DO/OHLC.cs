@@ -46,7 +46,7 @@ namespace CoinTNet.DO
         /// <returns></returns>
         public override string ToString()
         {
-            return string.Format("{0} O:{1:0.00###} H:{2:0.00###} L:{3:0.00###} C:{4:0.00###}", Date, Open, High, Low, Close);
+            return string.Format("{0} O:{1:0.00######} H:{2:0.00######} L:{3:0.00######} C:{4:0.00######}", Date, Open, High, Low, Close);
         }
     }
 

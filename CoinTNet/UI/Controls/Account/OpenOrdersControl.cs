@@ -95,10 +95,10 @@ namespace CoinTNet.UI.Controls
                     var cells = dgvOpenOrders.Rows[i].Cells;
                     cells[colType.Index].Value = o.Type == OrderType.Sell ? "Sell" : "Buy";
                     cells[colDate.Index].Value = o.DateTime.ToString();
-                    cells[colAmount.Index].Value = o.Amount.ToString("0.00###", CultureInfo.InvariantCulture);
-                    cells[colPrice.Index].Value = o.Price.ToString("0.00###", CultureInfo.InvariantCulture);
-                    cells[colTotalPrice.Index].Value = (o.Price * o.Amount).ToString("0.00###", CultureInfo.InvariantCulture);
-                    cells[colIfExecuted.Index].Value = o.LimitPrice > 0 ? o.LimitPrice.ToString("0.00###", CultureInfo.InvariantCulture) : string.Empty;
+                    cells[colAmount.Index].Value = o.Amount.ToString("0.00######", CultureInfo.InvariantCulture);
+                    cells[colPrice.Index].Value = o.Price.ToString("0.00######", CultureInfo.InvariantCulture);
+                    cells[colTotalPrice.Index].Value = (o.Price * o.Amount).ToString("0.00######", CultureInfo.InvariantCulture);
+                    cells[colIfExecuted.Index].Value = o.LimitPrice > 0 ? o.LimitPrice.ToString("0.00######", CultureInfo.InvariantCulture) : string.Empty;
                     (cells[colCancel.Index] as DataGridViewLinkCell).Value = "Cancel";
                     i++;
                 }

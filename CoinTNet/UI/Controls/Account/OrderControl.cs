@@ -116,8 +116,8 @@ namespace CoinTNet.UI.Controls
             {
                 var bal = balRes.Result;
                 _fee = _proxy.GetFee(_selectedPair).Result;
-                lblItem1Balance.Text = string.Format(CultureInfo.InvariantCulture, "{0:0.00#####} {1}", bal.Balances[_selectedPair.Item1], _selectedPair.Item1);
-                lblItem2Balance.Text = string.Format(CultureInfo.InvariantCulture, "{0:0.00#####} {1}", bal.Balances[_selectedPair.Item2], currency);
+                lblItem1Balance.Text = string.Format(CultureInfo.InvariantCulture, "{0:0.00######} {1}", bal.Balances[_selectedPair.Item1], _selectedPair.Item1);
+                lblItem2Balance.Text = string.Format(CultureInfo.InvariantCulture, "{0:0.00######} {1}", bal.Balances[_selectedPair.Item2], currency);
             }
             else
             {
@@ -134,8 +134,8 @@ namespace CoinTNet.UI.Controls
         {
             string currency = _selectedPair.Item2;
 
-            lblLowestAsk.Text = string.Format(CultureInfo.InvariantCulture, "{0:0.00#####} {1}", ticker.Ask, currency);
-            lblHighestBid.Text = string.Format(CultureInfo.InvariantCulture, "{0:0.00#####} {1}", ticker.Bid, currency);
+            lblLowestAsk.Text = string.Format(CultureInfo.InvariantCulture, "{0:0.00######} {1}", ticker.Ask, currency);
+            lblHighestBid.Text = string.Format(CultureInfo.InvariantCulture, "{0:0.00######} {1}", ticker.Bid, currency);
 
             if (string.IsNullOrEmpty(txtBuyPrice.Text))
             {

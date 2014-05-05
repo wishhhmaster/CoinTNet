@@ -405,12 +405,12 @@ namespace CoinTNet.UI.Controls
                 _currentPriceAnnotation.AnchorY = currentPrice.YValues[3];
 
                 _maxPriceAnnotation.AnchorDataPoint = maxValuePoint;
-                _maxPriceAnnotation.Text = (maxValuePoint.Tag as OHLC).High.ToString("0.00###", CultureInfo.InvariantCulture);
+                _maxPriceAnnotation.Text = (maxValuePoint.Tag as OHLC).High.ToString("0.00######", CultureInfo.InvariantCulture);
 
                 //Forced to do all of that so that we don't anchor on the High value of the min point
                 _minPriceAnnotation.AnchorX = minValuePoint.XValue;
                 _minPriceAnnotation.AnchorY = minValuePoint.YValues[1];
-                _minPriceAnnotation.Text = (minValuePoint.Tag as OHLC).Low.ToString("0.00###", CultureInfo.InvariantCulture);
+                _minPriceAnnotation.Text = (minValuePoint.Tag as OHLC).Low.ToString("0.00######", CultureInfo.InvariantCulture);
 
                 //Sets axes min/max
 
