@@ -174,7 +174,17 @@ namespace CoinTNet.UI.Controls
             if (ex.CurrencyPairs == null || ex.CurrencyPairs.Length == 0)
             {
                 var pairsRes = ExchangeProxyFactory.GetProxy(ex.InternalCode).GetCurrencyPairs();
-                ex.AssignPairs(pairsRes.Result);
+                if (pairsRes.Success && pairsRes.Result != null)
+                {
+                    ex.AssignPairs(pairsRes.Result);
+                }
+                else
+                {
+                    ErrorHelper.DisplayErrorMessage("Could not load pairs for selected exchange");
+                    cbbExchange.SelectedIndex = 0;//Select Bitstamp, which should not fail. TODO: have better mecanism
+                    _loadingPairs = false;
+                    return;
+                }
             }
             cbbPairs.PopulateCbbFromList(ex.CurrencyPairs, cp => cp.Description, ex.CurrencyPairs.FirstOrDefault());
             _loadingPairs = false;
