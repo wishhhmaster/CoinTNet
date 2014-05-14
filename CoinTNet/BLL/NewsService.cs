@@ -109,7 +109,7 @@ namespace CoinTNet.BLL
                                 //  Description = item.Descendants(cn + "encoded").First().Value,
                                 Title = item.Descendants("title").First().Value,
                                 Summary = item.Descendants("description").First().Value,
-                                Link = item.Descendants("comments").First().Value.Replace("#comments", string.Empty),
+                                Link = item.Descendants("link").First().Value,
                                 DateTime = DateTimeOffset.TryParse(item.Descendants("pubDate").First().Value, out dt) ? dt : DateTimeOffset.Now.Date,
                                 SourceName = sourceName
                             };
