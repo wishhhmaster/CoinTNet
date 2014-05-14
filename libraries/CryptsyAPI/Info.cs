@@ -60,7 +60,7 @@ namespace CryptsyAPI
             {
                 foreach (var val in (obj["balances_hold"] as JObject))
                 {
-                    info.BalancesAvailable[val.Key.ToUpper()] = decimal.Parse(val.Value.Value<string>(), NumberStyles.AllowExponent | NumberStyles.Float, CultureInfo.InvariantCulture);
+                    info.BalancesOnHold[val.Key.ToUpper()] = decimal.Parse(val.Value.Value<string>(), NumberStyles.AllowExponent | NumberStyles.Float, CultureInfo.InvariantCulture);
                 }
             }
             return info;
