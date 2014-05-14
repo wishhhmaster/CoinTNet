@@ -40,7 +40,7 @@ The currency pairs that can be traded on BTC-e are hard-coded for now, but it's 
 ### TODO List
 
 - Add more exchanges and currencies
-- Add real time trading trading (it's pretty much finished, but has not been tested)
+- Add real time bot trading (it's pretty much finished, but has not been tested)
 - Add more indicators
 - Add more trading strategies
 - Use streaming APIs when available
@@ -59,11 +59,12 @@ The API keys can be configured from the Options screen. They will be saved in an
 - Cryptsy API's parameters (needed if you want to send orders)
 - Twitter's parameters (needed if you want to retrieve Tweets)
 
-### Warning
+### Warnings
 
 - The source code is provided as-is. There might be some bugs, so advise you to review the code before using it, especially before making trade orders.
-
-
+- Historic data is retrieved from bitcoincharts.com and/or bitcoinwidsom.com, and consequently might not be available (if these websites are down, or if they do not store data for the selected currency pairs, as it is the case with most of Cryptsy's pairs). 
+Most recent data is retrieved directly from the exchanges' APIs, but is often limited to the last few hundred trades (which can span hours or days)
+- The high/low prices for the last 24 hours are not available from Cryptsy's API
 
 ### Donations
 
