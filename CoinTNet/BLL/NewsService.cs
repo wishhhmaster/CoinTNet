@@ -66,7 +66,10 @@ namespace CoinTNet.BLL
             }
             catch (Exception ex)
             {
-                Logger.Log(ex);
+                if (CoinTNet.Properties.Settings.Default.LogNewsErrors)
+                {
+                    Logger.Log(ex);
+                }
             }
             return new List<NewsItem>();
         }
@@ -83,7 +86,6 @@ namespace CoinTNet.BLL
             try
             {
                 var lines = GetReadNews();
-
                 //SyndicationFeed does not work with CoinDesk
 
                 HttpWebRequest req = HttpWebRequest.Create(feedUrl) as HttpWebRequest;
@@ -122,7 +124,10 @@ namespace CoinTNet.BLL
             }
             catch (Exception ex)
             {
-                Logger.Log(ex);
+                if (CoinTNet.Properties.Settings.Default.LogNewsErrors)
+                {
+                    Logger.Log(ex);
+                }
             }
             return new List<NewsItem>();
 

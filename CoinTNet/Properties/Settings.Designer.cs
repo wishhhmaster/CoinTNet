@@ -22,5 +22,14 @@ namespace CoinTNet.Properties {
                 return defaultInstance;
             }
         }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool LogNewsErrors {
+            get {
+                return ((bool)(this["LogNewsErrors"]));
+            }
+        }
     }
 }
