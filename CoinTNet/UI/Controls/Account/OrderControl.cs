@@ -177,7 +177,7 @@ namespace CoinTNet.UI.Controls
         {
             decimal balance = decimal.Parse(lblItem2Balance.Text.Substring(0, lblItem2Balance.Text.IndexOf(" ")), CultureInfo.InvariantCulture);
             decimal buyPrice = 0;
-            if (decimal.TryParse(txtBuyPrice.Text, NumberStyles.Currency, CultureInfo.InvariantCulture, out buyPrice))
+            if (decimal.TryParse(txtBuyPrice.Text, NumberStyles.Currency, CultureInfo.InvariantCulture, out buyPrice) && buyPrice > 0m)
             {
                 decimal amount = balance / buyPrice;
 
