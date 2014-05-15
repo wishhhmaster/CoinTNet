@@ -1,5 +1,6 @@
 ﻿using CoinTNet.BLL;
 using CoinTNet.BLL.TradingStrategies;
+using CoinTNet.Common.Constants;
 using CoinTNet.DO;
 using CoinTNet.UI.Common;
 using CoinTNet.UI.Common.EventAggregator;
@@ -67,6 +68,7 @@ namespace CoinTNet.UI.Forms
             myChartControl.NotifyIndicatorsChanged(_indicatorsForm.IndicatorOptions);
 
             this.Load += (s, e) => EventAggregator.Instance.Publish(new ApplicationStartMessage());
+            this.Text = string.Format("{0} - {1}a", ApplicationConstants.ApplicationName, ApplicationConstants.CurrentVersion);
         }
 
         #region Public Properties

@@ -9,6 +9,7 @@ namespace CoinTNet.Common.Constants
     class ApplicationConstants
     {
         public const string ApplicationName = "CoinT.Net";
+        public const string CurrentVersion = "0.0.0.4";
     }
 
     class SecuredDataKeys
