@@ -17,7 +17,7 @@ namespace CoinTNet.Common
         {
             try
             {
-                string text = string.Format("[{0}] The following exception occurred\n{1}{2}",
+                string text = string.Format("[{0}] The following exception occurred\n{1} => {2}",
                 DateTime.Now.ToString("dd/MM/yyyy HH:mm:ss"), msg, ex.ToString());
                 System.Diagnostics.Debug.WriteLine(text);
                 File.AppendAllText("error.log", text + Environment.NewLine);

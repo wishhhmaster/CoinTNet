@@ -413,6 +413,7 @@
     <None Include="Resources\warning.png" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Changelog.txt" />
     <Content Include="eb.sdf">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

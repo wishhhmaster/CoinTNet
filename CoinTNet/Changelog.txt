@@ -1,0 +1,14 @@
+
+
+0.0.0.5a
+- Fixed crash when selecting USD pairs on Cryptsy
+- Added changelog
+
+=====================================================
+0.0.0.4a
+
+- Display correct balance for Cryptsy pairs
+- Correct retrieval of links from RSS feeds
+- Fixed crash when currency pairs cannot be retrieved fro Cryptsy
+- Fixed crash when filling Buy Amount when price is 0
+- Display of version number

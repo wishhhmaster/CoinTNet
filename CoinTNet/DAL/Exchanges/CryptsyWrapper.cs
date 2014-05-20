@@ -1,4 +1,5 @@
-﻿using CoinTNet.Common.Constants;
+﻿using CoinTNet.Common;
+using CoinTNet.Common.Constants;
 using CoinTNet.DO;
 using CoinTNet.DO.Exchanges;
 using CoinTNet.DO.Security;
@@ -75,13 +76,29 @@ namespace CoinTNet.DAL.Exchanges
         /// <returns></returns>
         public CallResult<Balance> GetBalance(CurrencyPair pair)
         {
-            return CallProxy(() => _proxy.GetInfo(), b =>
+            //Specific treatment for that method: the USD pairs are listed in the available pairs, but corresponding balances are not returned for non verified accounts
+            var callRes = _proxy.GetInfo();
+
+            if (callRes.Success)
             {
-                var bal = new Balance();
-                bal.Balances[pair.Item1] = b.BalancesAvailable[pair.Item1];
-                bal.Balances[pair.Item2] = b.BalancesAvailable[pair.Item2];
-                return bal;
-            });
+                decimal balItem1, balItem2;
+
+                var b = callRes.Result;
+
+                if (b.BalancesAvailable.TryGetValue(pair.Item1, out balItem1) && b.BalancesAvailable.TryGetValue(pair.Item2, out balItem2))
+                {
+                    var bal = new Balance();
+                    bal.Balances[pair.Item1] = b.BalancesAvailable[pair.Item1];
+                    bal.Balances[pair.Item2] = b.BalancesAvailable[pair.Item2];
+                    return new CallResult<Balance>(bal);
+                }
+                else
+                {
+                    return new CallResult<Balance>("This currency pair is not available");
+                }
+            }
+            return new CallResult<Balance>(callRes.ErrorMessage) { Exception = callRes.Exception };
+
         }
         /// <summary>
         /// Places a sell order
@@ -249,12 +266,20 @@ namespace CoinTNet.DAL.Exchanges
         /// <returns></returns>
         private CallResult<T> CallProxy<T, T2>(Func<CryptsyAPI.CallResult<T2>> dataRetrievalFunc, Func<T2, T> convFunc)
         {
-            var callRes = dataRetrievalFunc();
-            if (callRes.Success)
+            try
             {
-                return new CallResult<T>(convFunc(callRes.Result));
+                var callRes = dataRetrievalFunc();
+                if (callRes.Success)
+                {
+                    return new CallResult<T>(convFunc(callRes.Result));
+                }
+                return new CallResult<T>(callRes.ErrorMessage) { Exception = callRes.Exception };
             }
-            return new CallResult<T>(callRes.ErrorMessage) { Exception = callRes.Exception };
+            catch (Exception e)
+            {
+                Logger.Log(e, "Exception after calling Cryptsy's proxy");
+                return new CallResult<T>(e.Message) { Exception = e };
+            }
         }
     }
 
