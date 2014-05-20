@@ -8,6 +8,7 @@
 - Changed date format of open orders to YYYY-MM-DD HH:mm:ss
 - The sorting of open orders by date now works, and is the default sorting order
 - Proper error messages displayed when API keys are not set/invalid
+- Retrieves highest bid/lowest ask with Cryptsy's ticker (issue #5)
 
 =====================================================
 0.0.0.4a
