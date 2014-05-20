@@ -19,7 +19,7 @@ namespace CoinTNet.UI.Controls
         /// The proxy
         /// </summary>
         private IExchange _proxy;
-         /// <summary>
+        /// <summary>
         /// Gets the currently selected pair
         /// </summary>
         private CurrencyPair _selectedPair;
@@ -88,13 +88,15 @@ namespace CoinTNet.UI.Controls
             if (openOrdersRes.Success)
             {
                 int i = 0;
+                dgvOpenOrders.Columns[colDate.Index].DefaultCellStyle.Format = "yyyy-MM-dd HH:mm:ss";
                 foreach (var o in openOrdersRes.Result.List)
                 {
+                    
                     dgvOpenOrders.Rows.Add();
                     dgvOpenOrders.Rows[i].Tag = o;
                     var cells = dgvOpenOrders.Rows[i].Cells;
                     cells[colType.Index].Value = o.Type == OrderType.Sell ? "Sell" : "Buy";
-                    cells[colDate.Index].Value = o.DateTime.ToString();
+                    cells[colDate.Index].Value = o.DateTime;
                     cells[colAmount.Index].Value = o.Amount.ToString("0.00######", CultureInfo.InvariantCulture);
                     cells[colPrice.Index].Value = o.Price.ToString("0.00######", CultureInfo.InvariantCulture);
                     cells[colTotalPrice.Index].Value = (o.Price * o.Amount).ToString("0.00######", CultureInfo.InvariantCulture);
@@ -102,6 +104,7 @@ namespace CoinTNet.UI.Controls
                     (cells[colCancel.Index] as DataGridViewLinkCell).Value = "Cancel";
                     i++;
                 }
+                dgvOpenOrders.Sort(colDate, System.ComponentModel.ListSortDirection.Descending);
             }
             else
             {

@@ -1,8 +1,12 @@
 
 
 0.0.0.5a
+
 - Fixed crash when selecting USD pairs on Cryptsy
 - Added changelog
+- Fixed crash when closing application
+- Changed date format of open orders to YYYY-MM-DD HH:mm:ss
+- The sorting of open orders by date now works, and is the default sorting order
 
 =====================================================
 0.0.0.4a
