@@ -97,7 +97,7 @@ namespace CoinTNet.DAL.Exchanges
                     return new CallResult<Balance>("This currency pair is not available");
                 }
             }
-            return new CallResult<Balance>(callRes.ErrorMessage) { Exception = callRes.Exception };
+            return new CallResult<Balance>(callRes.ErrorMessage) { Exception = callRes.Exception, ErrorCode = callRes.ErrorCode };
 
         }
         /// <summary>
@@ -273,7 +273,7 @@ namespace CoinTNet.DAL.Exchanges
                 {
                     return new CallResult<T>(convFunc(callRes.Result));
                 }
-                return new CallResult<T>(callRes.ErrorMessage) { Exception = callRes.Exception };
+                return new CallResult<T>(callRes.ErrorMessage) { Exception = callRes.Exception, ErrorCode = callRes.ErrorCode };
             }
             catch (Exception e)
             {

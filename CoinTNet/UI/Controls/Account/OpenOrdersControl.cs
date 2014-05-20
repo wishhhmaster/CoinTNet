@@ -108,7 +108,7 @@ namespace CoinTNet.UI.Controls
             }
             else
             {
-                ErrorHelper.DisplayErrorMessage(openOrdersRes.ErrorMessage);
+                ErrorHelper.DisplayErrorMessage(openOrdersRes);
             }
             dgvOpenOrders.ResumeLayout();
         }
@@ -131,7 +131,7 @@ namespace CoinTNet.UI.Controls
                 }
                 else
                 {
-                    ErrorHelper.DisplayErrorMessage(callRes.ErrorMessage);
+                    ErrorHelper.DisplayErrorMessage(callRes);
                 }
             }
         }

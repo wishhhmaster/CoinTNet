@@ -104,7 +104,7 @@ namespace CoinTNet.UI.Controls
             var tickerRes = _proxy.GetTicker(_selectedPair);
             if (!tickerRes.Success)
             {
-                ErrorHelper.DisplayErrorMessage(tickerRes.ErrorMessage);
+                ErrorHelper.DisplayErrorMessage(tickerRes);
                 return;
             }
             var ticker = tickerRes.Result;
@@ -121,7 +121,7 @@ namespace CoinTNet.UI.Controls
             }
             else
             {
-                ErrorHelper.DisplayErrorMessage(balRes.ErrorMessage);
+                ErrorHelper.DisplayErrorMessage(balRes);
             }
 
         }
@@ -266,7 +266,7 @@ namespace CoinTNet.UI.Controls
                     }
                     else
                     {
-                        ErrorHelper.DisplayErrorMessage(orderDetailsRes.ErrorMessage);
+                        ErrorHelper.DisplayErrorMessage(orderDetailsRes);
                     }
                 }
                 else
@@ -300,7 +300,7 @@ namespace CoinTNet.UI.Controls
                     }
                     else
                     {
-                        ErrorHelper.DisplayErrorMessage(orderDetailsRes.ErrorMessage);
+                        ErrorHelper.DisplayErrorMessage(orderDetailsRes);
                     }
                 }
                 else

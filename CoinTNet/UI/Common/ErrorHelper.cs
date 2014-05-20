@@ -1,5 +1,6 @@
 ﻿using CoinTNet.Common;
 using CoinTNet.Common.Constants;
+using CoinTNet.DO.Exchanges;
 using System;
 using System.Windows.Forms;
 
@@ -16,6 +17,18 @@ namespace CoinTNet.UI.Common
         /// <param name="errMsg"></param>
         public static void DisplayErrorMessage(string errMsg)
         {
+            MessageBox.Show(errMsg, ApplicationConstants.ApplicationName, MessageBoxButtons.OK, MessageBoxIcon.Error);
+        }
+
+        /// <summary>
+        /// Displays an error message for a callresult
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="callRes"></param>
+        public static void DisplayErrorMessage<T>(CallResult<T> callRes)
+        {
+            string errMsg = callRes.ErrorCode == ErrorCodes.InvalidAPIKeys ?
+                "Please enter valid API Keys" : callRes.ErrorMessage;
             MessageBox.Show(errMsg, ApplicationConstants.ApplicationName, MessageBoxButtons.OK, MessageBoxIcon.Error);
         }
 

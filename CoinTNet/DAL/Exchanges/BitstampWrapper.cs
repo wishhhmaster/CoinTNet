@@ -218,7 +218,7 @@ namespace CoinTNet.DAL.Exchanges
         /// <returns>A list of currency pairs</returns>
         public CallResult<CurrencyPair[]> GetCurrencyPairs()
         {
-            var p = new []{new CurrencyPair("BTC", "USD")};
+            var p = new[] { new CurrencyPair("BTC", "USD") };
             return new CallResult<CurrencyPair[]>(p);
         }
 
@@ -247,7 +247,7 @@ namespace CoinTNet.DAL.Exchanges
             {
                 return new CallResult<T>(convFunc(callRes.Result));
             }
-            return new CallResult<T>(callRes.ErrorMessage) { Exception = callRes.Exception };
+            return new CallResult<T>(callRes.ErrorMessage) { Exception = callRes.Exception, ErrorCode = callRes.ErrorCode };
         }
     }
 }

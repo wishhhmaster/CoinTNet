@@ -20,6 +20,17 @@ namespace CoinTNet.DAL.Exchanges
         /// The underlying Btc-e proxy
         /// </summary>
         private BtceApi _proxy;
+
+        /// <summary>
+        /// Message displayed when there are no API keys
+        /// </summary>
+        private const string NoKeysErrMsg = "api key not specified";
+
+        /// <summary>
+        /// Message displayed when there are invalid API keys
+        /// </summary>
+        private const string InvalidKeysErrMsg = "invalid api key";
+
         #endregion
 
         /// <summary>
@@ -243,7 +254,7 @@ namespace CoinTNet.DAL.Exchanges
                 .Cast<BtcePair>().Where(p => p != BtcePair.Unknown)
                 .Select(p => new CurrencyPair(p.Item1().ToUpper(), p.Item2().ToUpper()))
                 .ToArray();
-            
+
             return new CallResult<CurrencyPair[]>(pairs);
         }
 
@@ -268,7 +279,10 @@ namespace CoinTNet.DAL.Exchanges
             }
             catch (Exception e)
             {
-                return new CallResult<T>(e.Message);
+                return new CallResult<T>(e.Message)
+                    {
+                        ErrorCode = e.Message == NoKeysErrMsg || e.Message == InvalidKeysErrMsg ? ErrorCodes.InvalidAPIKeys : ErrorCodes.UnknownError
+                    };
             }
         }
 

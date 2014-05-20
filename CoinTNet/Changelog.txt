@@ -2,11 +2,12 @@
 
 0.0.0.5a
 
-- Fixed crash when selecting USD pairs on Cryptsy
+- Fixed crash when selecting USD pairs on Cryptsy => error message displayed
 - Added changelog
 - Fixed crash when closing application
 - Changed date format of open orders to YYYY-MM-DD HH:mm:ss
 - The sorting of open orders by date now works, and is the default sorting order
+- Proper error messages displayed when API keys are not set/invalid
 
 =====================================================
 0.0.0.4a

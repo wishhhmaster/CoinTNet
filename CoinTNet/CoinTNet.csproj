@@ -109,6 +109,7 @@
     <Compile Include="DO\Enums.cs" />
     <Compile Include="DO\Exchange.cs" />
     <Compile Include="DO\Exchanges\Balance.cs" />
+    <Compile Include="DO\Exchanges\ErrorCodes.cs" />
     <Compile Include="DO\Exchanges\Extensions.cs" />
     <Compile Include="DO\Exchanges\Fee.cs" />
     <Compile Include="DO\Exchanges\OpenOrders.cs" />

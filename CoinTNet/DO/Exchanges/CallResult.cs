@@ -47,5 +47,10 @@ namespace CoinTNet.DO.Exchanges
         /// Gets or sets the exception
         /// </summary>
         public Exception Exception { get; set; }
+
+        /// <summary>
+        /// Gets or sets an error code
+        /// </summary>
+        public int ErrorCode { get; set; }
     }
 }

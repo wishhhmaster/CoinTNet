@@ -27,6 +27,21 @@ namespace CryptsyAPI
     }
 
     /// <summary>
+    /// Constant for error codes
+    /// </summary>
+    public class ErrorCodes
+    {
+        /// <summary>
+        /// We don't handle that error 
+        /// </summary>
+        public const int UnknownError = 0;
+        /// <summary>
+        /// Invalid/empty API keys
+        /// </summary>
+        public const int InvalidAPIKeys = -1;
+    }
+
+    /// <summary>
     /// Proxy for Cryptsy's API
     /// </summary>
     public class CryptsyProxy
@@ -57,7 +72,14 @@ namespace CryptsyAPI
         /// Holds the cookies returned by the server, as recommended on the APi's page
         /// </summary>
         private CookieContainer _container;
+        /// <summary>
+        /// Diff in hours between Cryptsy's server time and UTC time
+        /// </summary>
         private int _hoursDiffToUtc;
+        /// <summary>
+        /// Message displayed when there are no/invalid API keys
+        /// </summary>
+        private const string NoKeysErrMsg = "Unable to Authorize Request - Check Your Post Data";
         #endregion
 
         /// <summary>
@@ -110,7 +132,7 @@ namespace CryptsyAPI
             return MakeGetRequest<CurrencyPair[]>("?method=marketdatav2", result =>
                 {
                     List<CurrencyPair> pairs = new List<CurrencyPair>();
-                    
+
                     foreach (var ma in result["markets"])
                     {
                         var m = ma.First;
@@ -286,6 +308,7 @@ namespace CryptsyAPI
             var r = new CallResult<T>
             {
                 ErrorMessage = error,
+                ErrorCode = error == NoKeysErrMsg ? ErrorCodes.InvalidAPIKeys : ErrorCodes.UnknownError,
                 Result = string.IsNullOrEmpty(error) ? func(token["return"]) : default(T)
             };
             return r;
@@ -310,7 +333,11 @@ namespace CryptsyAPI
             }
             catch (Exception e)
             {
-                return new CallResult<T> { ErrorMessage = e.Message, Exception = e };
+                return new CallResult<T>
+                {
+                    ErrorMessage = e.Message,
+                    Exception = e,
+                };
             }
         }
 

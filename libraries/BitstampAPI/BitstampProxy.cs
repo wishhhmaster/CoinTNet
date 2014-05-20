@@ -12,6 +12,21 @@ using System.Web;
 namespace BitstampAPI
 {
     /// <summary>
+    /// Constant for error codes
+    /// </summary>
+    public class ErrorCodes
+    {
+        /// <summary>
+        /// We don't handle that error 
+        /// </summary>
+        public const int UnknownError = 0;
+        /// <summary>
+        /// Invalid/empty API keys
+        /// </summary>
+        public const int InvalidAPIKeys = -1;
+    }
+
+    /// <summary>
     /// Proxy for making calls to the  Bitsamp API
     /// </summary>
     public class BitstampProxy
@@ -41,6 +56,10 @@ namespace BitstampAPI
         /// Used to compute hmac signature to sign data sent to the private API
         /// </summary>
         private HMACSHA256 _hmac;
+        /// <summary>
+        /// Message displayed when there are no API keys
+        /// </summary>
+        private const string InvalidKeysErrMsg = "API key not found";
         #endregion
 
         /// <summary>
@@ -214,6 +233,7 @@ namespace BitstampAPI
             var r = new CallResult<T>
             {
                 ErrorMessage = error,
+                ErrorCode = error == InvalidKeysErrMsg ? ErrorCodes.InvalidAPIKeys : ErrorCodes.UnknownError,
                 Result = string.IsNullOrEmpty(error) ? func(token) : default(T)
             };
             return r;
@@ -305,6 +325,10 @@ namespace BitstampAPI
         /// <returns></returns>
         private CallResult<T> MakePostRequest<T>(string url, Func<JToken, T> conversion, Dictionary<string, string> extraArgs = null)
         {
+            if (string.IsNullOrEmpty(_apiKey) || string.IsNullOrEmpty(_secretKey) || string.IsNullOrEmpty(_clientID))
+            {
+                return new CallResult<T> { ErrorMessage = "Missing API Keys/Client ID", ErrorCode = ErrorCodes.InvalidAPIKeys };
+            }
             try
             {
                 var args = GetAuthenticationArgs();
