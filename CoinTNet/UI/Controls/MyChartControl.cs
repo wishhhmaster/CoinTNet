@@ -327,6 +327,10 @@ namespace CoinTNet.UI.Controls
         /// <param name="serieName"></param>
         public void DrawChart(IList<OHLC> candles, string serieName)
         {
+            if(this.chartCtrl.IsDisposed)
+            {
+                return;
+            }
             _candles = candles;
             System.Threading.Thread.CurrentThread.CurrentUICulture = new CultureInfo("en-us");
 
