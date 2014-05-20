@@ -1,4 +1,5 @@
-﻿using CoinTNet.DAL;
+﻿using CoinTNet.Common.Constants;
+using CoinTNet.DAL;
 using CoinTNet.DO;
 using CoinTNet.UI.Common;
 using CoinTNet.UI.Common.EventAggregator;
@@ -34,7 +35,14 @@ namespace CoinTNet.UI.Controls
         /// The last price
         /// </summary>
         private decimal _lastPrice;
-
+        /// <summary>
+        /// The lowest price if the last 24 h (hack for Cryptsy)
+        /// </summary>
+        private decimal? _24Low;
+        /// <summary>
+        /// The highest price if the last 24 h (hack for Cryptsy)
+        /// </summary>
+        private decimal? _24High;
         #endregion
 
         /// <summary>
@@ -52,8 +60,21 @@ namespace CoinTNet.UI.Controls
                     {
                         _tickerToken.Cancel();
                         _lastPrice = 0;
-
                     }
+                    _24High = _24Low = null;
+                    //If Cryptsy, we cache the last 24 hour high/low
+                    if (m.Pair.Exchange.InternalCode == ExchangesInternalCodes.Cryptsy)
+                    {
+                        var mRes = (ExchangeProxyFactory.GetProxy(_selectedPair.Exchange.InternalCode) as DAL.Exchanges.CryptsyWrapper).CryptsyProxy.GetActiveMarkets();
+                        if (mRes.Success)
+                        {
+                            var market = mRes.Result.Find(ma => ma.ID == _selectedPair.ID);
+                            _24Low = market.Low;
+                            _24High = market.High;
+                        }
+                    }
+
+
                 }
             });
             this.Load += (s, e) =>
@@ -95,6 +116,22 @@ namespace CoinTNet.UI.Controls
                         if (tickerRes.Success)
                         {
                             var ticker = tickerRes.Result;
+
+                            //Hack for Cryptsy: to avoid querying all markets data every x seconds to get low/high,
+                            //we do it only once and then keep track of these values
+                            if (_24High.HasValue)
+                            {
+                                _24High = ticker.Last > _24High ? ticker.Last : _24High;
+                                ticker.High = _24High.Value;
+                            }
+
+                            if (_24Low.HasValue)
+                            {
+                                _24Low = ticker.Last < _24Low ? ticker.Last : _24Low;
+                                ticker.Low = _24Low.Value;
+                            }
+
+
                             EventAggregator.Instance.Publish(new TickerUpdateMessage { Ticker = ticker });
                             lblLast.Text = ticker.Last.ToString("0.00######", CultureInfo.InvariantCulture);
                             lblLow.Text = ticker.Low.ToString("0.00######", CultureInfo.InvariantCulture);

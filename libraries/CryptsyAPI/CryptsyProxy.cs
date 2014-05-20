@@ -238,6 +238,27 @@ namespace CryptsyAPI
             new Dictionary<string, string> { { "marketid", pair.ID } });
         }
 
+
+        /// <summary>
+        /// Returns the list of active markets
+        /// </summary>
+        /// <returns></returns>
+        public CallResult<List<ActiveMarket>> GetActiveMarkets()
+        {
+            return MakePostRequest("getmarkets", result =>
+            {
+                List<ActiveMarket> markets = new List<ActiveMarket>();
+                foreach (var o in result)
+                {
+                    markets.Add(ActiveMarket.CreateFromJObject(o as JObject));
+                }
+                return markets;
+            }
+            /*,
+                new Dictionary<string, string> { { "marketid", pair.ID } }*/);
+        }
+
+
         /// <summary>
         /// Makes a GET request and parses the result
         /// </summary>

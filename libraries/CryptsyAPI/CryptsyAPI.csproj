@@ -30,7 +30,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-  <Reference Include="Newtonsoft.Json">
+    <Reference Include="Newtonsoft.Json">
       <HintPath>..\..\packages\Newtonsoft.Json.6.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="System" />
@@ -50,6 +50,7 @@
     <Compile Include="OrderBook.cs" />
     <Compile Include="OrderDetails.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ActiveMarket.cs" />
     <Compile Include="Ticker.cs" />
     <Compile Include="Trade.cs" />
   </ItemGroup>
