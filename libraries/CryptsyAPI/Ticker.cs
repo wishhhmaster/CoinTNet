@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json.Linq;
+using System.Linq;
 
 namespace CryptsyAPI
 {
@@ -37,10 +38,24 @@ namespace CryptsyAPI
                 return null;
             }
 
+            decimal highestBid = 0m, lowestAsk = 0m;
+
+            var sellOrders = o["sellorders"] as JArray;
+            if (sellOrders != null)
+            {
+                lowestAsk = sellOrders.Min(s => s.Value<decimal>("price"));
+            }
+            var buyOrders = o["buyorders"] as JArray;
+            if (buyOrders != null)
+            {
+                highestBid = buyOrders.Max(s => s.Value<decimal>("price"));
+            }
+
+
             var tick = new Ticker()
             {
-                Bid = o.Value<decimal>("top_bid"),
-                Ask = o.Value<decimal>("top_ask"),
+                Bid = highestBid,
+                Ask = lowestAsk,
                 Volume = o.Value<decimal>("volume"),
                 High = o.Value<decimal>("24hhigh"),
                 Low = o.Value<decimal>("24hlow"),
@@ -49,5 +64,7 @@ namespace CryptsyAPI
 
             return tick;
         }
+
+
     }
 }
