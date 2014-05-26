@@ -63,9 +63,19 @@ namespace CoinTNet.Common
             return new DateTime(dt.Year, dt.Month, dt.Day, dt.Hour, dt.Minute, dt.Second, DateTimeKind.Utc);
             //return DateTime.SpecifyKind(dt, DateTimeKind.Utc);
         }
+    }
 
-
-
+    static class NumberExtensions
+    {
+        /// <summary>
+        /// Converts a decimal value to the standard string representation
+        /// </summary>
+        /// <param name="value"></param>
+        /// <returns></returns>
+        public static string ToStandardFormat(this decimal value)
+        {
+            return value.ToString("0.00######", System.Globalization.CultureInfo.InvariantCulture);
+        }
     }
 
 

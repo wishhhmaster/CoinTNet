@@ -1,4 +1,5 @@
-﻿using CoinTNet.DAL;
+﻿using CoinTNet.Common;
+using CoinTNet.DAL;
 using CoinTNet.DAL.Interfaces;
 using CoinTNet.DO;
 using CoinTNet.DO.Exchanges;
@@ -114,7 +115,7 @@ namespace CoinTNet.UI.Controls
 
             foreach (var point in chartOrderBook.Series["ask"].Points)
             {
-                point.ToolTip = string.Format(CultureInfo.InvariantCulture, "Amount : {0}\nPrice : {1:0.00######}", point.YValues[0], point.XValue);
+                point.ToolTip = string.Format(CultureInfo.InvariantCulture, "Amount : {0}\nPrice : {1}", point.YValues[0], ((decimal)point.XValue).ToStandardFormat());
             }
         }
 

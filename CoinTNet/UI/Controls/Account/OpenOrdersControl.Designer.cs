@@ -29,7 +29,6 @@
         private void InitializeComponent()
         {
             this.dgvOpenOrders = new System.Windows.Forms.DataGridView();
-            this.btnRefresh = new System.Windows.Forms.Button();
             this.colType = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colDate = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colAmount = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -37,6 +36,11 @@
             this.colTotalPrice = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colIfExecuted = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colCancel = new System.Windows.Forms.DataGridViewLinkColumn();
+            this.btnRefresh = new System.Windows.Forms.Button();
+            this.label1 = new System.Windows.Forms.Label();
+            this.label2 = new System.Windows.Forms.Label();
+            this.lblTotalBuyOrders = new System.Windows.Forms.Label();
+            this.lblTotalSellOrders = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.dgvOpenOrders)).BeginInit();
             this.SuspendLayout();
             // 
@@ -60,20 +64,9 @@
             this.dgvOpenOrders.Name = "dgvOpenOrders";
             this.dgvOpenOrders.ReadOnly = true;
             this.dgvOpenOrders.RowHeadersVisible = false;
-            this.dgvOpenOrders.Size = new System.Drawing.Size(496, 186);
+            this.dgvOpenOrders.Size = new System.Drawing.Size(496, 181);
             this.dgvOpenOrders.TabIndex = 0;
             this.dgvOpenOrders.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvOpenOrders_CellClick);
-            // 
-            // btnRefresh
-            // 
-            this.btnRefresh.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnRefresh.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.btnRefresh.Image = global::CoinTNet.Properties.Resources.arrow_refresh;
-            this.btnRefresh.Location = new System.Drawing.Point(509, 7);
-            this.btnRefresh.Name = "btnRefresh";
-            this.btnRefresh.Size = new System.Drawing.Size(31, 23);
-            this.btnRefresh.TabIndex = 1;
-            this.btnRefresh.UseVisualStyleBackColor = true;
             // 
             // colType
             // 
@@ -124,15 +117,67 @@
             this.colCancel.ReadOnly = true;
             this.colCancel.Width = 50;
             // 
+            // btnRefresh
+            // 
+            this.btnRefresh.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnRefresh.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.btnRefresh.Image = global::CoinTNet.Properties.Resources.arrow_refresh;
+            this.btnRefresh.Location = new System.Drawing.Point(509, 28);
+            this.btnRefresh.Name = "btnRefresh";
+            this.btnRefresh.Size = new System.Drawing.Size(31, 23);
+            this.btnRefresh.TabIndex = 1;
+            this.btnRefresh.UseVisualStyleBackColor = true;
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(10, 200);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(86, 13);
+            this.label1.TabIndex = 2;
+            this.label1.Text = "Total Buy Orders";
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(266, 200);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(85, 13);
+            this.label2.TabIndex = 3;
+            this.label2.Text = "Total Sell Orders";
+            // 
+            // lblTotalBuyOrders
+            // 
+            this.lblTotalBuyOrders.AutoSize = true;
+            this.lblTotalBuyOrders.Location = new System.Drawing.Point(111, 200);
+            this.lblTotalBuyOrders.Name = "lblTotalBuyOrders";
+            this.lblTotalBuyOrders.Size = new System.Drawing.Size(13, 13);
+            this.lblTotalBuyOrders.TabIndex = 4;
+            this.lblTotalBuyOrders.Text = "0";
+            // 
+            // lblTotalSellOrders
+            // 
+            this.lblTotalSellOrders.AutoSize = true;
+            this.lblTotalSellOrders.Location = new System.Drawing.Point(357, 200);
+            this.lblTotalSellOrders.Name = "lblTotalSellOrders";
+            this.lblTotalSellOrders.Size = new System.Drawing.Size(13, 13);
+            this.lblTotalSellOrders.TabIndex = 5;
+            this.lblTotalSellOrders.Text = "0";
+            // 
             // OpenOrdersControl
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Inherit;
+            this.Controls.Add(this.lblTotalSellOrders);
+            this.Controls.Add(this.lblTotalBuyOrders);
+            this.Controls.Add(this.label2);
+            this.Controls.Add(this.label1);
             this.Controls.Add(this.btnRefresh);
             this.Controls.Add(this.dgvOpenOrders);
             this.Name = "OpenOrdersControl";
-            this.Size = new System.Drawing.Size(545, 203);
+            this.Size = new System.Drawing.Size(545, 224);
             ((System.ComponentModel.ISupportInitialize)(this.dgvOpenOrders)).EndInit();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -147,5 +192,9 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn colTotalPrice;
         private System.Windows.Forms.DataGridViewTextBoxColumn colIfExecuted;
         private System.Windows.Forms.DataGridViewLinkColumn colCancel;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Label lblTotalBuyOrders;
+        private System.Windows.Forms.Label lblTotalSellOrders;
     }
 }

@@ -1,4 +1,5 @@
-﻿using CoinTNet.Common.Constants;
+﻿using CoinTNet.Common;
+using CoinTNet.Common.Constants;
 using CoinTNet.DAL;
 using CoinTNet.DO;
 using CoinTNet.UI.Common;
@@ -133,9 +134,9 @@ namespace CoinTNet.UI.Controls
 
 
                             EventAggregator.Instance.Publish(new TickerUpdateMessage { Ticker = ticker });
-                            lblLast.Text = ticker.Last.ToString("0.00######", CultureInfo.InvariantCulture);
-                            lblLow.Text = ticker.Low.ToString("0.00######", CultureInfo.InvariantCulture);
-                            lblHigh.Text = ticker.High.ToString("0.00######", CultureInfo.InvariantCulture);
+                            lblLast.Text = ticker.Last.ToStandardFormat();
+                            lblLow.Text = ticker.Low.ToStandardFormat();
+                            lblHigh.Text = ticker.High.ToStandardFormat();
                             _lastUpdateDttm = DateTime.Now;
                             lblLastUpdate.ForeColor = Color.Black;
                             lblLast.ForeColor = ticker.Last >= _lastPrice ? Color.LimeGreen : Color.Red;
