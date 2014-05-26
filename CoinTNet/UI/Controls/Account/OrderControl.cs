@@ -89,6 +89,7 @@ namespace CoinTNet.UI.Controls
                 _fee = feeRes.Success ? feeRes.Result : new Fee { BuyFee = 0.5m, SellFee = 0.5m };
                 lblBuyFee.Text = lblSellFee.Text = "0";
                 lblBuyTotal.Text = lblSellTotal.Text = "0";
+                UpdateBalance(false);
             }
             catch (Exception ex)
             {
@@ -99,12 +100,16 @@ namespace CoinTNet.UI.Controls
         /// <summary>
         /// Updates the user's balance
         /// </summary>
-        private void UpdateBalance()
+        /// <param name="displayErrorMessages">Whether to display error messages in a popup</param>
+        private void UpdateBalance(bool displayErrorMessages = true)
         {
             var tickerRes = _proxy.GetTicker(_selectedPair);
             if (!tickerRes.Success)
             {
-                ErrorHelper.DisplayErrorMessage(tickerRes);
+                if (displayErrorMessages)
+                {
+                    ErrorHelper.DisplayErrorMessage(tickerRes);
+                }
                 return;
             }
             var ticker = tickerRes.Result;
@@ -119,7 +124,7 @@ namespace CoinTNet.UI.Controls
                 lblItem1Balance.Text = string.Format("{0} {1}", bal.Balances[_selectedPair.Item1].ToStandardFormat(), _selectedPair.Item1);
                 lblItem2Balance.Text = string.Format("{0} {1}", bal.Balances[_selectedPair.Item2].ToStandardFormat(), currency);
             }
-            else
+            else if(displayErrorMessages)
             {
                 ErrorHelper.DisplayErrorMessage(balRes);
             }
