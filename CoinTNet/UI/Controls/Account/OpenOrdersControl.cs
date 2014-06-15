@@ -78,13 +78,15 @@ namespace CoinTNet.UI.Controls
                 colAmount.HeaderText = message.Pair.Item1 + " Amount";
                 colPrice.HeaderText = "Price in " + message.Pair.Item2;
                 colTotalPrice.HeaderText = "Total Price in " + message.Pair.Item2;
+                RefreshOrders(false);//Auto refresh of open orders
             }
         }
 
         /// <summary>
         /// Updates the list of open orders
         /// </summary>
-        private void RefreshOrders()
+        /// <param name="displayErrorMessages">Whether to display error messages in a popup</param>
+        private void RefreshOrders(bool displayErrorMessages = true)
         {
             var openOrdersRes = _proxy.GetOpenOrders(_selectedPair);
             dgvOpenOrders.SuspendLayout();
@@ -129,7 +131,10 @@ namespace CoinTNet.UI.Controls
             }
             else
             {
-                ErrorHelper.DisplayErrorMessage(openOrdersRes);
+                if (displayErrorMessages)
+                {
+                    ErrorHelper.DisplayErrorMessage(openOrdersRes);
+                }
             }
             dgvOpenOrders.ResumeLayout();
         }
