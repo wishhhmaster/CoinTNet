@@ -178,3 +178,4 @@ UpgradeLog*.htm
 # Microsoft Fakes
 FakesAssemblies/
 
+/.vs/CoinTNet/v15/Server/sqlite3
